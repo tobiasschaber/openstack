@@ -50,7 +50,7 @@ class cc_openstack::roles::controller_node {
 	
 	exec { 'set_rabbitmq_pw':
 		command => "rabbitmqctl change_password guest tobias1234",
-		path	=> "/usr/bin/",
+		path	=> "/usr/sbin/",
 	}
 	
 
