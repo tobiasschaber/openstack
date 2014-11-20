@@ -37,8 +37,14 @@ class cc_openstack::roles::controller_node {
 		root_password   => 'tobias1234',
 		override_options => { 
 
-		  # listen on external address
-		  'mysqld' => { 'bind-address' => '10.0.1.11' } , 
+			'mysqld' => { 
+				'bind-address' => '10.0.1.11',
+				'default-storage-engine' => 'innodb',
+				'collation-server' => 'utf8_general_ci',
+				'init-connect' => 'SET NAMES utf8',
+				'character-set-server' => 'utf8',
+				
+			} , 
 		}
 	}
 
