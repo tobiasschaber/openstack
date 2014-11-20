@@ -39,8 +39,8 @@ class cc_openstack::roles::controller_node {
 
 	
 	exec { 'mysql_install_db':
-		command => "mysql_install_db",
-		path	=> "/usr/bin/",
+		command => 'mysql_install_db',
+		path	=> '/usr/bin/',
 	}
 
 	
@@ -49,8 +49,8 @@ class cc_openstack::roles::controller_node {
 	}
 	
 	exec { 'set_rabbitmq_pw':
-		command => "rabbitmqctl change_password guest tobias1234",
-		path	=> "/usr/sbin/",
+		command => 'rabbitmqctl change_password guest tobias1234',
+		path	=> '/usr/sbin/',
 	}
 	
 
