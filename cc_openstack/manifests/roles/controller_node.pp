@@ -24,12 +24,7 @@ class cc_openstack::roles::controller_node {
 	exec { 'install-mysql-server':
 	
 		command => "apt-get install -y mysql-server",
-        cwd     => "/var/lib/tftpboot/boot/",
-        creates => "/var/lib/tftpboot/boot/foreman-discovery-image-latest.el6.iso-vmlinuz",
-        path    => "/usr/bin",
-        timeout => 1000,
-        require => File["/var/lib/tftpboot/boot"],
-	
+        path    => "/usr/bin",	
 	}
 	
 	
