@@ -42,9 +42,7 @@ class cc_openstack::roles::controller_node {
 		command => "mysql_install_db",
 		path	=> "/usr/bin/",
 	}
-	
-	}
-	
+
 	
 	package { 'rabbitmq-server':
 		ensure => 'installed',
