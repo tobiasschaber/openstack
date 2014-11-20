@@ -6,11 +6,13 @@ class cc_openstack::roles::controller_node {
 	include cc_openstack::roles::controller_node::network
 	
 	Package['ntp'] ->
-	Package['python-mysqldb']
+	Package['python-mysqldb'] ->
+	Class['::mysql::server'] ->
+	Exec['mysql_install_db'] ->
+	Package['rabbitmq-server'] ->
+	Exec['set_rabbitmq_pw']
 	
 
-	
-	
 	package { 'ntp':
 		ensure	=> "installed",
 		#require	=> Exec['apt-update'],
@@ -36,10 +38,24 @@ class cc_openstack::roles::controller_node {
 	}
 
 	
+	exec { 'mysql_install_db':
+		command => "mysql_install_db",
+		path	=> "/usr/bin/",
+	}
+	
+	}
 	
 	
+	package { 'rabbitmq-server':
+		ensure => 'installed',
+	}
 	
+	exec { 'set_rabbitmq_pw':
+		command => "rabbitmqctl change_password guest tobias1234",
+		path	=> "/usr/bin/",
+	}
 	
+
 	
 
 }
