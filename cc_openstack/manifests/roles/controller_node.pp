@@ -6,8 +6,7 @@ class cc_openstack::roles::controller_node {
 	include cc_openstack::roles::controller_node::network
 	
 	Package['ntp'] ->
-	Package['python-mysqldb'] ->
-	Class{'::mysql::server']
+	Package['python-mysqldb']
 	
 
 	
