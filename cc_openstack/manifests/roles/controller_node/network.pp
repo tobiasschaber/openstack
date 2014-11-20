@@ -41,7 +41,7 @@ class cc_openstack::roles::controller_node::network {
 	
 	exec { "ifup_eth1":
        command => "ifup eth1",
-       path    => "/usr/bin;/sbin",
+       path	=> "/sbin/",
 	}
 	
 
