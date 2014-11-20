@@ -24,7 +24,7 @@ class cc_openstack::roles::controller_node {
 	exec { 'install-mysql-server':
 	
 		command => "apt-get install -y mysql-server",
-        path    => "/usr/bin",	
+		path    => [ "/bin", "/usr/bin", "/sbin", "/usr/local/sbin", "/usr/sbin"],
 	}
 	
 	
