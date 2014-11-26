@@ -20,11 +20,16 @@ class cc_openstack::roles::controller_node::keystone {
 	}
 
 	
+	
+	#match	=> 'connection = sqlite:////var/lib/keystone/keystone.db',
+	
 	file_line { 'keystone_config_1':
 		path	=> '/etc/keystone/keystone.conf',
-		match	=> 'connection = sqlite:////var/lib/keystone/keystone.db',
+		match	=> '^connection.*',
 		line	=> 'connection = mysql://root:tobias1234@controller/keystone',
 	}
+	
+
 	
 	file { '/var/lib/keystone/keystone.db':
 		ensure => absent,
@@ -52,13 +57,13 @@ class cc_openstack::roles::controller_node::keystone {
 	
 	file_line { 'keystone_config_2':
 		path	=> '/etc/keystone/keystone.conf',
-		match	=> '#admin_token=ADMIN',
+		match	=> '^#admin_token=.*',
 		line	=> 'admin_token=dac71b0650e9aa927577',
 	}
 	
 	file_line { 'keystone_config_3':
 		path	=> '/etc/keystone/keystone.conf',
-		match	=> '#log_dir=<NONE>',
+		match	=> '^#log_dir=.*',
 		line	=> 'log_dir=/var/log/keystone',
 	}
 	
