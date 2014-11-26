@@ -15,6 +15,7 @@ class cc_openstack::roles::controller_node {
 	Package['rabbitmq-server'] ->
 	Exec['set_rabbitmq_pw']
 	
+	include cc_openstack::roles::controller_node::keystone
 
 	package { 'expect':
 		ensure => "installed",
@@ -33,7 +34,7 @@ class cc_openstack::roles::controller_node {
 		override_options => { 
 
 			'mysqld' => { 
-				'bind-address' => '10.0.1.11',
+				'bind-address' => '10.0.0.11',
 				'default-storage-engine' => 'innodb',
 				'collation-server' => 'utf8_general_ci',
 				'init-connect' => 'SET NAMES utf8',
@@ -60,10 +61,7 @@ class cc_openstack::roles::controller_node {
 		command	=> "/tmp/autosecure_mysql.sh",
 		path	=> "/usr/bin/",
 	}
-	
-	
-	
-	
+
 	
 	package { 'rabbitmq-server':
 		ensure => 'installed',
