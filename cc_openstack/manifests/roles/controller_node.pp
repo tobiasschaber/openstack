@@ -13,7 +13,8 @@ class cc_openstack::roles::controller_node {
 	File['/tmp/autosecure_mysql.sh'] ->
 	Exec['mysql_autosecure'] ->
 	Package['rabbitmq-server'] ->
-	Exec['set_rabbitmq_pw']
+	Exec['set_rabbitmq_pw'] ->
+	Exec['restart_mysql']
 	
 	include cc_openstack::roles::controller_node::keystone
 
@@ -72,6 +73,11 @@ class cc_openstack::roles::controller_node {
 		command => 'su rabbitmq -s /bin/sh -c "/usr/lib/rabbitmq/bin/rabbitmqctl change_password guest tobias1234"',
 		path	=> '/bin/',
 	}
+	
+	exec { 'restart_mysql' :
+		command => 'service mysql restart',
+		path => '/usr/bin',
+	
 	
 
 	
