@@ -57,13 +57,13 @@ class cc_openstack::roles::controller_node::keystone {
 	
 	file_line { 'keystone_config_2':
 		path	=> '/etc/keystone/keystone.conf',
-		match	=> '^#admin_token=.*',
+		match	=> '^#?admin_token=.*',
 		line	=> 'admin_token=dac71b0650e9aa927577',
 	}
 	
 	file_line { 'keystone_config_3':
 		path	=> '/etc/keystone/keystone.conf',
-		match	=> '^#log_dir=.*',
+		match	=> '^#?log_dir=.*',
 		line	=> 'log_dir=/var/log/keystone',
 	}
 	
