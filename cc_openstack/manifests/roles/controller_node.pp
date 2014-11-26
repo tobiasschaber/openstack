@@ -18,6 +18,7 @@ class cc_openstack::roles::controller_node {
 
 	package { 'expect':
 		ensure => "installed",
+	}
 	
 	package { 'ntp':
 		ensure	=> "installed",
@@ -55,7 +56,7 @@ class cc_openstack::roles::controller_node {
 		mode => 755,
 	}
 	
-	exec { 'mysql_autosecure'
+	exec { 'mysql_autosecure':
 		command	=> "/tmp/autosecure_mysql.sh",
 		path	=> "/usr/bin/",
 	}
