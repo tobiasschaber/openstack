@@ -5,17 +5,22 @@ class cc_openstack::roles::controller_node {
 
 	include cc_openstack::roles::controller_node::network
 	
+	Package['expect'] ->
 	Package['ntp'] ->
 	Package['python-mysqldb'] ->
 	Class['::mysql::server'] ->
 	Exec['mysql_install_db'] ->
+	File['/tmp/autosecure_mysql.sh'] ->
+	Exec['mysql_autosecure'] ->
 	Package['rabbitmq-server'] ->
 	Exec['set_rabbitmq_pw']
 	
 
+	package { 'expect':
+		ensure => "installed",
+	
 	package { 'ntp':
 		ensure	=> "installed",
-		#require	=> Exec['apt-update'],
 	}
 	
 	package { 'python-mysqldb':
@@ -42,7 +47,22 @@ class cc_openstack::roles::controller_node {
 		command => 'mysql_install_db',
 		path	=> '/usr/bin/',
 	}
-
+	
+	file { '/tmp/autosecure_mysql.sh':
+		ensure => present,
+		source => 
+			'puppet:///modules/cc_openstack/autosecure_mysql.sh',
+		mode => 755,
+	}
+	
+	exec { 'mysql_autosecure'
+		command	=> "/tmp/autosecure_mysql.sh",
+		path	=> "/usr/bin/",
+	}
+	
+	
+	
+	
 	
 	package { 'rabbitmq-server':
 		ensure => 'installed',
