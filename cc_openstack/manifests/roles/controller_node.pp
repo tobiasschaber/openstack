@@ -78,6 +78,7 @@ class cc_openstack::roles::controller_node {
 		command => 'service mysql restart',
 		path => '/usr/bin',
 	
+	}
 	
 
 	
