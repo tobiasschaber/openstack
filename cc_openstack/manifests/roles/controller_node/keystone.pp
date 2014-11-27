@@ -11,7 +11,7 @@ class cc_openstack::roles::controller_node::keystone {
 	Exec['create_keystone_mysql_3'] ->
 	Exec['install_keystone_tables'] ->
 	File_Line['keystone_config_2'] ->
-	File_Line['keystone_config_3']
+	File_Line['keystone_config_3'] ->
 	Exec['keystone_restart']
 	
 	
@@ -67,7 +67,7 @@ class cc_openstack::roles::controller_node::keystone {
 	
 	exec { 'keystone_restart':
 		command => 'service keystone restart',
-		path	=> '/usr/sbin/',
+		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
 	}
 	
 	
