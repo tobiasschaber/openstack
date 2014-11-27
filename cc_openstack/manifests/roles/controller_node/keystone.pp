@@ -28,7 +28,7 @@ class cc_openstack::roles::controller_node::keystone {
 	Exec['keystone_link_demo_user'] ->
 	Exec['keystone_create_service_tenant'] ->
 	Exec['keystone_register_service'] ->
-	Exec['keystone_create_endpoint'] ->
+	Exec['keystone_create_endpoint']
 	
 	
 	
@@ -155,13 +155,13 @@ class cc_openstack::roles::controller_node::keystone {
 
 	exec { 'keystone_register_service':
 		environment => ["OS_SERVICE_TOKEN=dac71b0650e9aa927577", "OS_SERVICE_ENDPOINT=http://controller:35357/v2.0"],
-		command => 'keystone service-create --name=keystone --description=OpenStackIdentity',
+		command => 'keystone service-create --name=keystone --type=identity --description=OpenStackIdentity',
 		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
 	}
 	
 	exec { 'keystone_create_endpoint':
 		environment => ["OS_SERVICE_TOKEN=dac71b0650e9aa927577", "OS_SERVICE_ENDPOINT=http://controller:35357/v2.0"],
-		command => 'keystone endpoint-create --service-id=$(keystone service-list | awk '/ identity / {print $2}') --publicurl=http://controller:5000/v2.0 --internalurl=http://controller:5000/v2.0 --adminurl=http://controller:35357/v2.0',
+		command => 'keystone endpoint-create --service-id=$(keystone service-list | awk \'/ identity / {print $2}\') --publicurl=http://controller:5000/v2.0 --internalurl=http://controller:5000/v2.0 --adminurl=http://controller:35357/v2.0',
 		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
 	}	
 	
