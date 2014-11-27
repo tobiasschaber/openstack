@@ -26,7 +26,7 @@ class cc_openstack::roles::controller_node::keystone {
 	file_line { 'keystone_config_1':
 		path	=> '/etc/keystone/keystone.conf',
 		match	=> '^connection.*',
-		line	=> 'connection = mysql://root:tobias1234@controller/keystone',
+		line	=> 'connection = mysql://keystone:tobias1234@controller/keystone',
 	}
 	
 

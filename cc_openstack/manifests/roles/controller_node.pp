@@ -13,8 +13,7 @@ class cc_openstack::roles::controller_node {
 	File['/tmp/autosecure_mysql.sh'] ->
 	Exec['mysql_autosecure'] ->
 	Package['rabbitmq-server'] ->
-	Exec['set_rabbitmq_pw'] ->
-	Exec['restart_mysql']
+	Exec['set_rabbitmq_pw']
 	
 	include cc_openstack::roles::controller_node::keystone
 
@@ -32,6 +31,7 @@ class cc_openstack::roles::controller_node {
 
 	class { '::mysql::server':
 		root_password   		=> 'tobias1234',
+		restart					=> 'true',
 		override_options => { 
 
 			'mysqld' => { 
@@ -40,9 +40,9 @@ class cc_openstack::roles::controller_node {
 				'collation-server' => 'utf8_general_ci',
 				'init-connect' => 'SET NAMES utf8',
 				'character-set-server' => 'utf8',
-				
 			} , 
 		}
+		
 	}
 
 	
@@ -74,11 +74,24 @@ class cc_openstack::roles::controller_node {
 		path	=> '/bin/',
 	}
 	
-	exec { 'restart_mysql' :
-		command => 'service mysql restart',
-		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
-	
+
+	service { 'mysql' :
+		ensure => 'running',
+		enable => 'true',
 	}
+
+
+
+	
+	## AKTUELLER STAND
+	## DER MYSQL_RESTART SCHEINT NICHT ZU KLAPPEN, LETZTES MAL HAT ER BEI "STOPPED" STATUS NICHT MEHR STARTEN KÖNNEN
+	# DONE ## AUSSERDEM SCHEINT DER keystone-db-user NOCH "root" ZU SEIN ANSTELLE "keystone"
+	
+#	exec { 'restart_mysql' :
+#		command => 'service mysql restart',
+#		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
+#	
+#	}
 	
 
 	
