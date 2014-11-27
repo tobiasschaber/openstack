@@ -4,7 +4,6 @@
 class cc_openstack::roles::controller_node::keystone {
 
 	Package['keystone'] ->
-	Exec['restart_mysql'] ->
 	File_Line['keystone_config_1'] ->
 	File['/var/lib/keystone/keystone.db'] ->
 	Exec['create_keystone_mysql_1'] ->
@@ -13,15 +12,14 @@ class cc_openstack::roles::controller_node::keystone {
 	Exec['install_keystone_tables'] ->
 	File_Line['keystone_config_2'] ->
 	File_Line['keystone_config_3']
-#	Exec['keystone_restart']
+	Exec['keystone_restart']
 	
 	
 	package { 'keystone':
 		ensure => "installed",
 	}
 	
-	#match	=> 'connection = sqlite:////var/lib/keystone/keystone.db',
-	
+	#should match the following line: 	=> 'connection = sqlite:////var/lib/keystone/keystone.db',
 	file_line { 'keystone_config_1':
 		path	=> '/etc/keystone/keystone.conf',
 		match	=> '^connection.*',
