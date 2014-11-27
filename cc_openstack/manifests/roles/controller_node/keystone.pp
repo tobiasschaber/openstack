@@ -26,7 +26,10 @@ class cc_openstack::roles::controller_node::keystone {
 	Exec['keystone_create_demo_user'] ->
 	Exec['keystone_create_demo_tenant'] ->
 	Exec['keystone_link_demo_user'] ->
-	Exec['keystone_create_service_tenant']
+	Exec['keystone_create_service_tenant'] ->
+	Exec['keystone_register_service'] ->
+	Exec['keystone_create_endpoint'] ->
+	
 	
 	
 	package { 'keystone':
@@ -90,6 +93,8 @@ class cc_openstack::roles::controller_node::keystone {
 	
 	## create admin user, group, tenant, and link them togegher
 	
+	
+	# add a 10 seconds sleep. enough time for the keystone service to be restarted
 	exec { 'keystone_create_admin_user':
 		environment => ["OS_SERVICE_TOKEN=dac71b0650e9aa927577", "OS_SERVICE_ENDPOINT=http://controller:35357/v2.0"],
 		command => 'sleep 10; keystone user-create --name=admin --email=admin@controller --pass=admin1234',
@@ -141,7 +146,6 @@ class cc_openstack::roles::controller_node::keystone {
 		command => 'keystone user-role-add --user=demo --role=_member_ --tenant=demo',
 		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
 	}
-
 	
 	exec { 'keystone_create_service_tenant':
 		environment => ["OS_SERVICE_TOKEN=dac71b0650e9aa927577", "OS_SERVICE_ENDPOINT=http://controller:35357/v2.0"],
@@ -149,4 +153,22 @@ class cc_openstack::roles::controller_node::keystone {
 		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
 	}
 
+	exec { 'keystone_register_service':
+		environment => ["OS_SERVICE_TOKEN=dac71b0650e9aa927577", "OS_SERVICE_ENDPOINT=http://controller:35357/v2.0"],
+		command => 'keystone service-create --name=keystone --description=OpenStackIdentity',
+		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
+	}
+	
+	exec { 'keystone_create_endpoint':
+		environment => ["OS_SERVICE_TOKEN=dac71b0650e9aa927577", "OS_SERVICE_ENDPOINT=http://controller:35357/v2.0"],
+		command => 'keystone endpoint-create --service-id=$(keystone service-list | awk '/ identity / {print $2}') --publicurl=http://controller:5000/v2.0 --internalurl=http://controller:5000/v2.0 --adminurl=http://controller:35357/v2.0',
+		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
+	}	
+	
+	
+	
+	
 }
+
+
+
