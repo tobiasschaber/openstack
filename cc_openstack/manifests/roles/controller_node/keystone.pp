@@ -17,7 +17,16 @@ class cc_openstack::roles::controller_node::keystone {
 	Exec['install_keystone_tables'] ->
 	File_Line['keystone_config_2'] ->
 	File_Line['keystone_config_3'] ->
-	Exec['keystone_restart']
+	Exec['keystone_restart'] ->
+	Exec['keystone_create_admin_user'] ->
+	Exec['keystone_create_admin_role'] ->
+	Exec['keystone_create_admin_tenant'] ->
+	Exec['keystone_link_admin'] ->
+	Exec['keystone_link_admin_member'] ->
+	Exec['keystone_create_demo_user'] ->
+	Exec['keystone_create_demo_tenant'] ->
+	Exec['keystone_link_demo_user'] ->
+	Exec['keystone_create_service_tenant']
 	
 	
 	package { 'keystone':
@@ -75,6 +84,10 @@ class cc_openstack::roles::controller_node::keystone {
 		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
 	}
 	
+	
+	
+	
+	
 	## create admin user, group, tenant, and link them togegher
 	
 	exec { 'keystone_create_admin_user':
@@ -101,6 +114,7 @@ class cc_openstack::roles::controller_node::keystone {
 		command => 'keystone --os-token="dac71b0650e9aa927577" --os-auth-url="http://controller:35357/v2.0" --os-endpoint="http://controller:35357/v2.0" user-role-add --user=admin --role=_member_ --tenant=admin',
 		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
 	}		
+
 
 	
 	## create normal user and link with member group
