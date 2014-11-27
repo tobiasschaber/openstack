@@ -18,7 +18,6 @@ class cc_openstack::roles::controller_node::keystone {
 	File_Line['keystone_config_2'] ->
 	File_Line['keystone_config_3'] ->
 	Exec['keystone_restart'] ->
-	Exec['keystone_export_vars'] ->
 	Exec['keystone_create_admin_user'] ->
 	Exec['keystone_create_admin_role'] ->
 	Exec['keystone_create_admin_tenant'] ->
@@ -84,12 +83,7 @@ class cc_openstack::roles::controller_node::keystone {
 		command => 'service keystone restart',
 		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
 	}
-	
-	exec { 'keystone_export_vars':
-		command => 'export OS_SERVICE_TOKEN=dac71b0650e9aa927577; export OS_SERVICE_ENDPOINT=http://controller:35357/v2.0;',
-		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
-	
-	}
+
 	
 	
 	
@@ -97,26 +91,31 @@ class cc_openstack::roles::controller_node::keystone {
 	## create admin user, group, tenant, and link them togegher
 	
 	exec { 'keystone_create_admin_user':
+		environment => ["OS_SERVICE_TOKEN=dac71b0650e9aa927577", "OS_SERVICE_ENDPOINT=http://controller:35357/v2.0"],
 		command => 'keystone user-create --name=admin --email=admin@controller --pass=admin1234',
 		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
 	}
 	
 	exec { 'keystone_create_admin_role':
+		environment => ["OS_SERVICE_TOKEN=dac71b0650e9aa927577", "OS_SERVICE_ENDPOINT=http://controller:35357/v2.0"],
 		command => 'keystone role-create --name=admin',
 		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
 	}
 
 	exec { 'keystone_create_admin_tenant':
+		environment => ["OS_SERVICE_TOKEN=dac71b0650e9aa927577", "OS_SERVICE_ENDPOINT=http://controller:35357/v2.0"],
 		command => 'keystone tenant-create --name=admin --description=AdminTenant',
 		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
 	}	
 	
 	exec { 'keystone_link_admin':
+		environment => ["OS_SERVICE_TOKEN=dac71b0650e9aa927577", "OS_SERVICE_ENDPOINT=http://controller:35357/v2.0"],
 		command => 'keystone user-role-add --user=admin --tenant=admin --role=admin',
 		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
 	}	
 
 	exec { 'keystone_link_admin_member':
+		environment => ["OS_SERVICE_TOKEN=dac71b0650e9aa927577", "OS_SERVICE_ENDPOINT=http://controller:35357/v2.0"],
 		command => 'keystone user-role-add --user=admin --role=_member_ --tenant=admin',
 		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
 	}		
@@ -126,22 +125,26 @@ class cc_openstack::roles::controller_node::keystone {
 	## create normal user and link with member group
 	
 	exec { 'keystone_create_demo_user':
+		environment => ["OS_SERVICE_TOKEN=dac71b0650e9aa927577", "OS_SERVICE_ENDPOINT=http://controller:35357/v2.0"],
 		command => 'keystone user-create --name=demo --pass=demo1234 --email=demo@controller',
 		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
 	}
 
 	exec { 'keystone_create_demo_tenant':
+		environment => ["OS_SERVICE_TOKEN=dac71b0650e9aa927577", "OS_SERVICE_ENDPOINT=http://controller:35357/v2.0"],
 		command => 'keystone tenant-create --name=demo --description=DemoTenant',
 		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
 	}
 	
 	exec { 'keystone_link_demo_user':
+		environment => ["OS_SERVICE_TOKEN=dac71b0650e9aa927577", "OS_SERVICE_ENDPOINT=http://controller:35357/v2.0"],
 		command => 'keystone user-role-add --user=demo --role=_member_ --tenant=demo',
 		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
 	}
 
 	
 	exec { 'keystone_create_service_tenant':
+		environment => ["OS_SERVICE_TOKEN=dac71b0650e9aa927577", "OS_SERVICE_ENDPOINT=http://controller:35357/v2.0"],
 		command => 'keystone tenant-create --name=service --description=ServiceTenant',
 		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
 	}
