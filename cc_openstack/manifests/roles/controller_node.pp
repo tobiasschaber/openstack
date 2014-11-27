@@ -31,7 +31,7 @@ class cc_openstack::roles::controller_node {
 
 	class { '::mysql::server':
 		root_password   		=> 'tobias1234',
-		restart					=> 'true',
+		#restart					=> 'true',
 		override_options => { 
 
 			'mysqld' => { 
