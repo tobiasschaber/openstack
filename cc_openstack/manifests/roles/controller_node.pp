@@ -5,6 +5,7 @@ class cc_openstack::roles::controller_node {
 
 	include cc_openstack::roles::controller_node::network
 	include cc_openstack::roles::controller_node::keystone
+	include cc_openstack::roles::controller_node::clienttools
 	
 	
 	Class['cc_openstack::roles::controller_node::network'] ->
@@ -18,7 +19,9 @@ class cc_openstack::roles::controller_node {
 	Exec['mysql_restart'] ->
 	Package['rabbitmq-server'] ->
 	Exec['set_rabbitmq_pw'] ->
-	Class['cc_openstack::roles::controller_node::keystone']
+	Class['cc_openstack::roles::controller_node::keystone'] ->
+	Class['cc_openstack::roles::controller_node::clienttools']
+	
 	
 	
 
