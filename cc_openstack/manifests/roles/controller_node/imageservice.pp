@@ -32,14 +32,14 @@ class cc_openstack::roles::controller_node::imageservice {
 	#should match the following line: 	=> '#connection = <None>'
 	file_line { 'glance_config_1':
 		path	=> '/etc/glance/glance-api.conf',
-		match	=> '^#connection =.*',
+		match	=> '^#?connection =.*',
 		line	=> 'connection = mysql://glance:glance1234@controller/glance',
 	}
 
 	#should match the following line: 	=> '#connection = <None>'
 	file_line { 'glance_config_2':
 		path	=> '/etc/glance/glance-api.conf',
-		match	=> '^#connection =.*',
+		match	=> '^#?connection =.*',
 		line	=> 'connection = mysql://glance:glance1234@controller/glance',
 	}	
 	
@@ -89,5 +89,7 @@ class cc_openstack::roles::controller_node::imageservice {
 	
 	## HIER FERTIG BIS PUNKT 7. "Configure the image service to use the identity service for authentication"
 	
+	
+	# DER REGEX FÜR FILE_LINE KLAPPT NICHT WEGEN DEM # ZEICHEN DAVOR..
 
 }
