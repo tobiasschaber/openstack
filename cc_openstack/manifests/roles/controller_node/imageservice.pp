@@ -63,7 +63,7 @@ class cc_openstack::roles::controller_node::imageservice {
 		path	=> '/usr/bin/',
 	}
 	
-	exec { 'create_keystone_mysql_3':
+	exec { 'create_glance_mysql_3':
 		command => 'mysql --user=root --password=tobias1234 --execute="GRANT ALL PRIVILEGES ON glance.* TO \'glance\'@\'%\' IDENTIFIED BY \'glance1234\'"',
 		path	=> '/usr/bin/',
 	}
