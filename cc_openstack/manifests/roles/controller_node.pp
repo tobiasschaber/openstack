@@ -75,10 +75,6 @@ class cc_openstack::roles::controller_node {
 	}
 	
 
-	service { 'mysql' :
-		ensure => 'running',
-		enable => 'true',
-	}
 
 
 
