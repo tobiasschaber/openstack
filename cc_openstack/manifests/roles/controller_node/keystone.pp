@@ -24,6 +24,7 @@ class cc_openstack::roles::controller_node::keystone {
 	exec { 'restart_mysql' :
 		command => 'service mysql restart',
 		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
+		require	=> Service['mysql'],
 	}
 	
 	
