@@ -18,11 +18,11 @@ class cc_openstack::roles::controller_node::keystone {
 	File_Line['keystone_config_2'] ->
 	File_Line['keystone_config_3'] ->
 	Exec['keystone_restart'] ->
-#	Exec['keystone_create_admin_user'] ->
-#	Exec['keystone_create_admin_role'] ->
-#	Exec['keystone_create_admin_tenant'] ->
-#	Exec['keystone_link_admin'] ->
-#	Exec['keystone_link_admin_member'] ->
+	Exec['keystone_create_admin_user'] ->
+	Exec['keystone_create_admin_role'] ->
+	Exec['keystone_create_admin_tenant'] ->
+	Exec['keystone_link_admin'] ->
+	Exec['keystone_link_admin_member'] ->
 	Exec['keystone_create_demo_user'] ->
 	Exec['keystone_create_demo_tenant'] ->
 	Exec['keystone_link_demo_user'] ->
@@ -90,53 +90,53 @@ class cc_openstack::roles::controller_node::keystone {
 	
 	## create admin user, group, tenant, and link them togegher
 	
-#	exec { 'keystone_create_admin_user':
-#		command => 'keystone --os-token="dac71b0650e9aa927577" --os-auth-url="http://controller:35357/v2.0" --os-endpoint="http://controller:35357/v2.0" user-create --name=admin --email="admin@controller" --pass=admin1234',
-#		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
-#	}
+	exec { 'keystone_create_admin_user':
+		command => 'keystone --os-token=dac71b0650e9aa927577 --os-auth-url=http://controller:35357/v2.0 --os-endpoint=http://controller:35357/v2.0 user-create --name=admin --email=admin@controller --pass=admin1234',
+		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
+	}
 	
-#	exec { 'keystone_create_admin_role':
-#		command => 'keystone --os-token="dac71b0650e9aa927577" --os-auth-url="http://controller:35357/v2.0" --os-endpoint="http://controller:35357/v2.0" role-create --name=admin',
-#		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
-#	}
+	exec { 'keystone_create_admin_role':
+		command => 'keystone --os-token=dac71b0650e9aa927577 --os-auth-url=http://controller:35357/v2.0 --os-endpoint=http://controller:35357/v2.0 role-create --name=admin',
+		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
+	}
 
-#	exec { 'keystone_create_admin_tenant':
-#		command => 'keystone --os-token="dac71b0650e9aa927577" --os-auth-url="http://controller:35357/v2.0" --os-endpoint="http://controller:35357/v2.0" tenant-create --name=admin --description="Admin Tenant"',
-#		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
-#	}	
+	exec { 'keystone_create_admin_tenant':
+		command => 'keystone --os-token=dac71b0650e9aa927577 --os-auth-url=http://controller:35357/v2.0 --os-endpoint=http://controller:35357/v2.0 tenant-create --name=admin --description=AdminTenant',
+		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
+	}	
 	
-#	exec { 'keystone_link_admin':
-#		command => 'keystone --os-token="dac71b0650e9aa927577" --os-auth-url="http://controller:35357/v2.0" --os-endpoint="http://controller:35357/v2.0" user-role-add --user=admin --tenant=admin --role=admin',
-#		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
-#	}	
+	exec { 'keystone_link_admin':
+		command => 'keystone --os-token=dac71b0650e9aa927577 --os-auth-url=http://controller:35357/v2.0 --os-endpoint=http://controller:35357/v2.0 user-role-add --user=admin --tenant=admin --role=admin',
+		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
+	}	
 
-#	exec { 'keystone_link_admin_member':
-#		command => 'keystone --os-token="dac71b0650e9aa927577" --os-auth-url="http://controller:35357/v2.0" --os-endpoint="http://controller:35357/v2.0" user-role-add --user=admin --role=_member_ --tenant=admin',
-#		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
-#	}		
+	exec { 'keystone_link_admin_member':
+		command => 'keystone --os-token=dac71b0650e9aa927577 --os-auth-url=http://controller:35357/v2.0 --os-endpoint=http://controller:35357/v2.0 user-role-add --user=admin --role=_member_ --tenant=admin',
+		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
+	}		
 
 
 	
 	## create normal user and link with member group
 	
 	exec { 'keystone_create_demo_user':
-		command => 'keystone --os-token="dac71b0650e9aa927577" --os-auth-url="http://controller:35357/v2.0" --os-endpoint="http://controller:35357/v2.0" user-create --name=demo --pass=demo1234 --email="demo@controller"',
+		command => 'keystone --os-token=dac71b0650e9aa927577 --os-auth-url=http://controller:35357/v2.0 --os-endpoint=http://controller:35357/v2.0 user-create --name=demo --pass=demo1234 --email=demo@controller',
 		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
 	}
 
 	exec { 'keystone_create_demo_tenant':
-		command => 'keystone --os-token="dac71b0650e9aa927577" --os-auth-url="http://controller:35357/v2.0" --os-endpoint="http://controller:35357/v2.0" tenant-create --name=demo --description="Demo Tenant"',
+		command => 'keystone --os-token=dac71b0650e9aa927577 --os-auth-url=http://controller:35357/v2.0 --os-endpoint=http://controller:35357/v2.0 tenant-create --name=demo --description=DemoTenant',
 		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
 	}
 	
 	exec { 'keystone_link_demo_user':
-		command => 'keystone --os-token="dac71b0650e9aa927577" --os-auth-url="http://controller:35357/v2.0" --os-endpoint="http://controller:35357/v2.0" user-role-add --user=demo --role=_member_ --tenant=demo',
+		command => 'keystone --os-token=dac71b0650e9aa927577 --os-auth-url=http://controller:35357/v2.0 --os-endpoint=http://controller:35357/v2.0 user-role-add --user=demo --role=_member_ --tenant=demo',
 		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
 	}
 
 	
 	exec { 'keystone_create_service_tenant':
-		command => 'keystone --os-token="dac71b0650e9aa927577" --os-auth-url="http://controller:35357/v2.0" --os-endpoint="http://controller:35357/v2.0" tenant-create --name=service --description="Service Tenant"',
+		command => 'keystone --os-token=dac71b0650e9aa927577 --os-auth-url=http://controller:35357/v2.0 --os-endpoint=http://controller:35357/v2.0 tenant-create --name=service --description=ServiceTenant',
 		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
 	}
 
