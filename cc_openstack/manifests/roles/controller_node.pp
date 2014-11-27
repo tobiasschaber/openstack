@@ -8,6 +8,7 @@ class cc_openstack::roles::controller_node {
 	include cc_openstack::roles::controller_node::clienttools
 	include cc_openstack::roles::controller_node::mysqlserver
 	include cc_openstack::roles::controller_node::rabbitmqserver
+	include cc_openstack::roles::controller_node::imageservice
 	
 	
 	Class['cc_openstack::roles::controller_node::network'] ->
@@ -16,7 +17,8 @@ class cc_openstack::roles::controller_node {
 	Class['cc_openstack::roles::controller_node::mysqlserver'] ->
 	Class['cc_openstack::roles::controller_node::rabbitmqserver'] ->
 	Class['cc_openstack::roles::controller_node::keystone'] ->
-	Class['cc_openstack::roles::controller_node::clienttools']
+	Class['cc_openstack::roles::controller_node::clienttools'] ->
+	Class['cc_openstack::roles::controller_node::imageservice']
 	
 	
 	
