@@ -12,21 +12,13 @@ class cc_openstack::roles::controller_node::keystone {
 	Exec['create_keystone_mysql_3'] ->
 	Exec['install_keystone_tables'] ->
 	File_Line['keystone_config_2'] ->
-	File_Line['keystone_config_3'] ->
-	Exec['keystone_restart']
+	File_Line['keystone_config_3']
+#	Exec['keystone_restart']
 	
 	
 	package { 'keystone':
 		ensure => "installed",
 	}
-
-	
-	exec { 'restart_mysql' :
-		command => 'service mysql restart',
-		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
-		require	=> Service['mysql'],
-	}
-	
 	
 	#match	=> 'connection = sqlite:////var/lib/keystone/keystone.db',
 	

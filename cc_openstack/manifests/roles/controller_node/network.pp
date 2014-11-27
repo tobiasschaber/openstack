@@ -3,6 +3,9 @@
 
 class cc_openstack::roles::controller_node::network {
 
+	notify { 'Starting Network configuration':}
+	
+	Notify['Starting Network configuration'] ->
 	File_Line['append_mgmt_interface_1'] ->
 	File_Line['append_mgmt_interface_2'] ->
 	File_Line['append_mgmt_interface_3'] ->

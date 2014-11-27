@@ -4,7 +4,10 @@
 class cc_openstack::roles::controller_node {
 
 	include cc_openstack::roles::controller_node::network
+	include cc_openstack::roles::controller_node::keystone
 	
+	
+	Class['cc_openstack::roles::controller_node::network'] ->
 	Package['expect'] ->
 	Package['ntp'] ->
 	Package['python-mysqldb'] ->
@@ -12,10 +15,12 @@ class cc_openstack::roles::controller_node {
 	Exec['mysql_install_db'] ->
 	File['/tmp/autosecure_mysql.sh'] ->
 	Exec['mysql_autosecure'] ->
+	Exec['mysql_restart'] ->
 	Package['rabbitmq-server'] ->
-	Exec['set_rabbitmq_pw']
+	Exec['set_rabbitmq_pw'] ->
+	Class['cc_openstack::roles::controller_node::keystone']
 	
-	include cc_openstack::roles::controller_node::keystone
+	
 
 	package { 'expect':
 		ensure => "installed",
@@ -43,6 +48,11 @@ class cc_openstack::roles::controller_node {
 			} , 
 		}
 		
+	}
+	
+	exec { 'restart_mysql' :
+		command => 'service mysql restart',
+		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
 	}
 
 	
