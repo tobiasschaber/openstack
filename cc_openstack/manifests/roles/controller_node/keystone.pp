@@ -3,7 +3,7 @@
 
 # use this admin token: dac71b0650e9aa927577
 # mysql credentials: admin/tobias1234
-# keystone admin credentials: admin/dac71b0650e9aa927577
+# keystone admin credentials: admin/admin1234
 # keystone demo credentials: demo/demo1234
 
 class cc_openstack::roles::controller_node::keystone {
@@ -18,11 +18,11 @@ class cc_openstack::roles::controller_node::keystone {
 	File_Line['keystone_config_2'] ->
 	File_Line['keystone_config_3'] ->
 	Exec['keystone_restart'] ->
-	Exec['keystone_create_admin_user'] ->
-	Exec['keystone_create_admin_role'] ->
-	Exec['keystone_create_admin_tenant'] ->
-	Exec['keystone_link_admin'] ->
-	Exec['keystone_link_admin_member'] ->
+#	Exec['keystone_create_admin_user'] ->
+#	Exec['keystone_create_admin_role'] ->
+#	Exec['keystone_create_admin_tenant'] ->
+#	Exec['keystone_link_admin'] ->
+#	Exec['keystone_link_admin_member'] ->
 	Exec['keystone_create_demo_user'] ->
 	Exec['keystone_create_demo_tenant'] ->
 	Exec['keystone_link_demo_user'] ->
@@ -90,30 +90,30 @@ class cc_openstack::roles::controller_node::keystone {
 	
 	## create admin user, group, tenant, and link them togegher
 	
-	exec { 'keystone_create_admin_user':
-		command => 'keystone --os-token="dac71b0650e9aa927577" --os-auth-url="http://controller:35357/v2.0" --os-endpoint="http://controller:35357/v2.0" user-create --name=admin --email="admin@controller" --pass=dac71b0650e9aa927577',
-		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
-	}
+#	exec { 'keystone_create_admin_user':
+#		command => 'keystone --os-token="dac71b0650e9aa927577" --os-auth-url="http://controller:35357/v2.0" --os-endpoint="http://controller:35357/v2.0" user-create --name=admin --email="admin@controller" --pass=admin1234',
+#		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
+#	}
 	
-	exec { 'keystone_create_admin_role':
-		command => 'keystone --os-token="dac71b0650e9aa927577" --os-auth-url="http://controller:35357/v2.0" --os-endpoint="http://controller:35357/v2.0" role-create --name=admin',
-		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
-	}
+#	exec { 'keystone_create_admin_role':
+#		command => 'keystone --os-token="dac71b0650e9aa927577" --os-auth-url="http://controller:35357/v2.0" --os-endpoint="http://controller:35357/v2.0" role-create --name=admin',
+#		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
+#	}
 
-	exec { 'keystone_create_admin_tenant':
-		command => 'keystone --os-token="dac71b0650e9aa927577" --os-auth-url="http://controller:35357/v2.0" --os-endpoint="http://controller:35357/v2.0" tenant-create --name=admin --description="Admin Tenant"',
-		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
-	}	
+#	exec { 'keystone_create_admin_tenant':
+#		command => 'keystone --os-token="dac71b0650e9aa927577" --os-auth-url="http://controller:35357/v2.0" --os-endpoint="http://controller:35357/v2.0" tenant-create --name=admin --description="Admin Tenant"',
+#		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
+#	}	
 	
-	exec { 'keystone_link_admin':
-		command => 'keystone --os-token="dac71b0650e9aa927577" --os-auth-url="http://controller:35357/v2.0" --os-endpoint="http://controller:35357/v2.0" user-role-add --user=admin --tenant=admin --role=admin',
-		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
-	}	
+#	exec { 'keystone_link_admin':
+#		command => 'keystone --os-token="dac71b0650e9aa927577" --os-auth-url="http://controller:35357/v2.0" --os-endpoint="http://controller:35357/v2.0" user-role-add --user=admin --tenant=admin --role=admin',
+#		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
+#	}	
 
-	exec { 'keystone_link_admin_member':
-		command => 'keystone --os-token="dac71b0650e9aa927577" --os-auth-url="http://controller:35357/v2.0" --os-endpoint="http://controller:35357/v2.0" user-role-add --user=admin --role=_member_ --tenant=admin',
-		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
-	}		
+#	exec { 'keystone_link_admin_member':
+#		command => 'keystone --os-token="dac71b0650e9aa927577" --os-auth-url="http://controller:35357/v2.0" --os-endpoint="http://controller:35357/v2.0" user-role-add --user=admin --role=_member_ --tenant=admin',
+#		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
+#	}		
 
 
 	
