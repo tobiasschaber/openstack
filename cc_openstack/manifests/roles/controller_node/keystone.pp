@@ -92,7 +92,7 @@ class cc_openstack::roles::controller_node::keystone {
 	
 	exec { 'keystone_create_admin_user':
 		environment => ["OS_SERVICE_TOKEN=dac71b0650e9aa927577", "OS_SERVICE_ENDPOINT=http://controller:35357/v2.0"],
-		command => 'keystone user-create --name=admin --email=admin@controller --pass=admin1234',
+		command => 'sleep 10; keystone user-create --name=admin --email=admin@controller --pass=admin1234',
 		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
 	}
 	
@@ -126,7 +126,7 @@ class cc_openstack::roles::controller_node::keystone {
 	
 	exec { 'keystone_create_demo_user':
 		environment => ["OS_SERVICE_TOKEN=dac71b0650e9aa927577", "OS_SERVICE_ENDPOINT=http://controller:35357/v2.0"],
-		command => 'sleep 10; keystone user-create --name=demo --pass=demo1234 --email=demo@controller',
+		command => 'keystone user-create --name=demo --pass=demo1234 --email=demo@controller',
 		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
 	}
 
