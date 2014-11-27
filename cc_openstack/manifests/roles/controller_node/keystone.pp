@@ -4,6 +4,7 @@
 class cc_openstack::roles::controller_node::keystone {
 
 	Package['keystone'] ->
+	Exec['restart_mysql'] ->
 	File_Line['keystone_config_1'] ->
 	File['/var/lib/keystone/keystone.db'] ->
 	Exec['create_keystone_mysql_1'] ->
@@ -19,6 +20,11 @@ class cc_openstack::roles::controller_node::keystone {
 		ensure => "installed",
 	}
 
+	
+	exec { 'restart_mysql' :
+		command => 'service mysql restart',
+		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
+	}
 	
 	
 	#match	=> 'connection = sqlite:////var/lib/keystone/keystone.db',

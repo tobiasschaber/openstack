@@ -83,11 +83,7 @@ class cc_openstack::roles::controller_node {
 	## DER MYSQL_RESTART SCHEINT NICHT ZU KLAPPEN, LETZTES MAL HAT ER BEI "STOPPED" STATUS NICHT MEHR STARTEN KÖNNEN
 	# DONE ## AUSSERDEM SCHEINT DER keystone-db-user NOCH "root" ZU SEIN ANSTELLE "keystone"
 	
-#	exec { 'restart_mysql' :
-#		command => 'service mysql restart',
-#		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
-#	
-#	}
+
 	
 
 	
