@@ -20,10 +20,14 @@ class cc_openstack::roles::controller_node::clienttools {
 		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
 	}
 
-	exec { 'install_client_ceilometer':
-		command => 'pip install python-ceilometerclient',
-		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin', '/usr/local/bin/'],
+	package { 'python-ceilometerclient':
+		ensure => "installed",
 	}
+	
+#	exec { 'install_client_ceilometer':
+#		command => 'pip install python-ceilometerclient',
+#		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin', '/usr/local/bin/'],
+#	}
 	
 	exec { 'install_client_cinder':
 		command => 'pip install python-cinderclient',
