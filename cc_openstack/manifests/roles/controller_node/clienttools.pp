@@ -6,7 +6,7 @@ class cc_openstack::roles::controller_node::clienttools {
 	Exec['install_pip'] ->
 	Package['python-ceilometerclient'] ->
 	Package['python-cinderclient'] ->
-	Package['python-glanceclient'] ->
+	Package['install-python-glanceclient'] ->
 	Package['python-heatclient'] ->
 	Package['python-keystoneclient'] ->
 	Package['python-neutronclient'] ->
@@ -28,7 +28,8 @@ class cc_openstack::roles::controller_node::clienttools {
 		ensure => "installed",
 	}
 	
-	package { 'python-glanceclient':
+	package { 'install-python-glanceclient':
+		name => "python-glanceclient",
 		ensure => "installed",
 	}
 	
