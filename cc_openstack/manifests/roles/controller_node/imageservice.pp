@@ -7,7 +7,7 @@
 class cc_openstack::roles::controller_node::imageservice {
 
 	Package['glance'] ->
-	Package['pyth-glance-client'] ->
+	Package['python-glanceclient'] ->
 	File_Line['glance_config_1'] ->
 	File_Line['glance_config_2'] ->
 	File['/var/lib/glance/glance.sqlite'] ->
@@ -25,8 +25,7 @@ class cc_openstack::roles::controller_node::imageservice {
 		ensure => "installed",
 	}
 	
-	package { 'pyth-glance-client':
-		name => "python-glanceclient":
+	package { 'python-glanceclient':
 		ensure => "installed",
 	}
 	
