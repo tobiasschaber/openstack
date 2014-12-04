@@ -4,7 +4,7 @@
 class cc_openstack::roles::controller_node::clienttools {
 
 	Exec['install_pip'] ->
-	Exec['install_client_ceilometer'] ->
+	Package['install_client_ceilometer'] ->
 	Exec['install_client_cinder'] ->
 	Exec['install_client_glance'] ->
 	Exec['install_client_heat'] ->
