@@ -183,7 +183,8 @@ class cc_openstack::roles::controller_node::imageservice {
 		command => 'service glance-registry restart',
 		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
 	}
-	exec { 'glance-api-restart':
+			
+	exec { 'glance_api_restart':
 		command => 'service glance-api restart',
 		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
 	}
