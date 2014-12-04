@@ -27,7 +27,8 @@ class cc_openstack::roles::controller_node::clienttools {
 	package { 'python-cinderclient':
 		ensure => "installed",
 	}
-	
+
+# already installed in imageservice... maybe need to separate this better later!	
 #	package { 'install-python-glanceclient':
 #		name => "python-glanceclient",
 #		ensure => "installed",
