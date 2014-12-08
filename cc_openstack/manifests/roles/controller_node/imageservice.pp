@@ -39,7 +39,7 @@ class cc_openstack::roles::controller_node::imageservice {
 	
 	#should match the following line: 	=> '#connection = <None>'
 	file_line { 'glance_config_1':
-		path	=> '/etc/glance/glance-api.conf',
+		path	=> '/etc/glance/glance-registry.conf',
 		match	=> '^#?connection =.*',
 		line	=> 'connection = mysql://glance:glance1234@controller/glance',
 	}

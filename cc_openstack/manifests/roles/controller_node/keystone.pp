@@ -1,4 +1,16 @@
 
+# Das klappt um kesystone befehle abzusetzen:
+# export OS_SERVICE_TOKEN=dac71b0650e9aa927577
+# export OS_SERVICE_ENDPOINT=http://controller:35357/v2.0
+
+# Korrektes source file:
+# export OS_USERNAME=admin
+# export OS_PASSWORD=admin1234
+# export OS_TENANT_NAME=admin
+# export OS_AUTH_URL=http://controller:35357/v2.0
+
+# und dann mal einen reboot oder so..
+
 
 
 # use this admin token: dac71b0650e9aa927577
