@@ -10,7 +10,7 @@ class cc_openstack::roles::controller_node::clienttools {
 	Package['python-heatclient'] ->
 	Package['python-keystoneclient'] ->
 	Package['python-neutronclient'] ->
-	Package['python-novaclient'] ->
+#	Package['python-novaclient'] ->
 	Package['python-swiftclient'] ->
 	Package['python-troveclient']
 	
@@ -45,10 +45,11 @@ class cc_openstack::roles::controller_node::clienttools {
 	package { 'python-neutronclient':
 		ensure => "installed",
 	}
-	
-	package { 'python-novaclient':
-		ensure => "installed",
-	}
+
+# already installed in computeservice... maybe need to separate this better later!	
+#	package { 'python-novaclient':
+#		ensure => "installed",
+#	}
 	
 	package { 'python-swiftclient':
 		ensure => "installed",

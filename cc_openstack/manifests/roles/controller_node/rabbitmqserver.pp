@@ -1,5 +1,8 @@
 
 
+
+# rabbitmy user:	guest/tobias1234
+
 class cc_openstack::roles::controller_node::rabbitmqserver {
 
 	Package['rabbitmq-server'] ->

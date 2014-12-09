@@ -195,21 +195,6 @@ class cc_openstack::roles::controller_node::imageservice {
 		command => 'service glance-api restart',
 		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
 	}
-	
-	
-	
-	
-	# Dann noch die beiden auth_uri und flavor an die original stellen verschieben !!!!!
-	# Dann noch die beiden auth_uri und flavor an die original stellen verschieben !!!!!
-	# Dann noch die beiden auth_uri und flavor an die original stellen verschieben !!!!!
-	# Dann noch die beiden auth_uri und flavor an die original stellen verschieben !!!!!
-	# Dann noch die beiden auth_uri und flavor an die original stellen verschieben !!!!!
-	# Dann noch die beiden auth_uri und flavor an die original stellen verschieben !!!!!
-	# Dann noch die beiden auth_uri und flavor an die original stellen verschieben !!!!!
-	
-	
-	
-	## HIER FERTIG BIS PUNKT 7. "Configure the image service to use the identity service for authentication"
-	
+
 	
 }
