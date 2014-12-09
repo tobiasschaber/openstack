@@ -37,7 +37,8 @@ class cc_openstack::roles::controller_node::computeservice {
 	Exec['nova_consoleauth_restart'] ->
 	Exec['nova_scheduler_restart'] ->
 	Exec['nova_conductor_restart'] ->
-	Exec['nova_novncproxy_restart']
+	Exec['nova_novncproxy_restart'] ->
+	Exec['nova-create-default-network']
 	
 	
 	
@@ -216,6 +217,16 @@ class cc_openstack::roles::controller_node::computeservice {
 		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
 	}
 	
+	
+	exec { 'nova-create-default-network':
+		environment => ["OS_USERNAME=admin", "OS_PASSWORD=admin1234", "OS_TENANT_NAME=admin", "OS_AUTH_URL=http://controller:35357/v2.0"],
+		command => 'nova network-create demo-net --bridge br100 --multi-host T --fixed-range-v4 203.0.113.24/29',
+		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
+	}
+	
+	
+	
+	
 	exec { 'nova_api_restart':
 		command => 'service nova-api restart',
 		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
@@ -245,6 +256,8 @@ class cc_openstack::roles::controller_node::computeservice {
 		command => 'service nova-novncproxy restart',
 		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
 	}
+	
+	
 	
 
 
