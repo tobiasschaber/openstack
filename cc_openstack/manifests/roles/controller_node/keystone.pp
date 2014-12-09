@@ -2,12 +2,17 @@
 # Das klappt um kesystone befehle abzusetzen:
 # export OS_SERVICE_TOKEN=dac71b0650e9aa927577
 # export OS_SERVICE_ENDPOINT=http://controller:35357/v2.0
-
-# Korrektes source file:
+# dann unset auf beide
+# keystone --os-username=admin --os-password=admin1234 --os-auth-url=http://controller:35357/v2.0 token-get
+# keystone --os-username=admin --os-password=admin1234 --os-auth-url=http://controller:35357/v2.0 --os-tenant-name=admin token-get
+# Korrektes source file erzeugen
 # export OS_USERNAME=admin
 # export OS_PASSWORD=admin1234
 # export OS_TENANT_NAME=admin
 # export OS_AUTH_URL=http://controller:35357/v2.0
+# source <sourcefile>
+# keystone token-get
+# Dann noch die beiden auth_uri und flavor an die original stellen verschieben !!!!!
 
 # und dann mal einen reboot oder so..
 
@@ -135,7 +140,7 @@ class cc_openstack::roles::controller_node::keystone {
 		environment => ["OS_SERVICE_TOKEN=dac71b0650e9aa927577", "OS_SERVICE_ENDPOINT=http://controller:35357/v2.0"],
 		command => 'keystone user-role-add --user=admin --role=_member_ --tenant=admin',
 		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
-	}		
+	}
 
 
 	

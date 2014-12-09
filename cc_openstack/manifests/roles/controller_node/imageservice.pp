@@ -126,7 +126,8 @@ class cc_openstack::roles::controller_node::imageservice {
 	
 	file_line { 'glance_config_3f':
 		path	=> '/etc/glance/glance-api.conf',
-		line	=> 'auth_uri = http://controller:5000',
+		match	=> '^.keystone_authtoken.*',
+		line	=> '[keystone_authtoken]\nauth_uri = http://controller:5000',
 	}
 	
 	
@@ -191,6 +192,14 @@ class cc_openstack::roles::controller_node::imageservice {
 	
 	
 	
+	
+	# Dann noch die beiden auth_uri und flavor an die original stellen verschieben !!!!!
+	# Dann noch die beiden auth_uri und flavor an die original stellen verschieben !!!!!
+	# Dann noch die beiden auth_uri und flavor an die original stellen verschieben !!!!!
+	# Dann noch die beiden auth_uri und flavor an die original stellen verschieben !!!!!
+	# Dann noch die beiden auth_uri und flavor an die original stellen verschieben !!!!!
+	# Dann noch die beiden auth_uri und flavor an die original stellen verschieben !!!!!
+	# Dann noch die beiden auth_uri und flavor an die original stellen verschieben !!!!!
 	
 	
 	
