@@ -22,7 +22,8 @@ class cc_openstack::roles::controller_node::imageservice {
 	Exec['keystone_register_image_service'] ->
 	Exec['keystone_imageservice_endpoint_create'] ->
 	Exec['glance_registry_restart'] ->
-	Exec['glance_api_restart']
+	Exec['glance_api_restart'] ->
+	Exec['glance-install-cirros-image']
 
 
 	
@@ -193,6 +194,15 @@ class cc_openstack::roles::controller_node::imageservice {
 			
 	exec { 'glance_api_restart':
 		command => 'service glance-api restart',
+		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
+	}
+	
+	
+	
+	
+	exec { 'glance-install-cirros-image':
+		environment => ["OS_USERNAME=admin", "OS_PASSWORD=admin1234", "OS_TENANT_NAME=admin", "OS_AUTH_URL=http://controller:35357/v2.0"],
+		command => 'glance image-create --name="cirros-0.3.2-x86_64" --disk-format=qcow2 --container-format=bare --is-public=true --copy-from http://cdn.download.cirros-cloud.net/0.3.2/cirros-0.3.2-x86_64-disk.img',
 		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
 	}
 
