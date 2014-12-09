@@ -4,7 +4,7 @@
 class cc_openstack::roles::controller_node::dashboard {
 
 	Exec['apt-get-update'] ->
-	Package[apache2'] ->
+	Package['apache2'] ->
 	Package['memcached'] ->
 	Package['libapache2-mod-wsgi'] ->
 	Package['openstack-dashboard'] ->
