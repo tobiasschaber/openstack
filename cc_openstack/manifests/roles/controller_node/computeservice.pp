@@ -202,7 +202,7 @@ class cc_openstack::roles::controller_node::computeservice {
 	
 	exec { 'keystone_computeservice_endpoint_create':
 		environment => ["OS_USERNAME=admin", "OS_PASSWORD=admin1234", "OS_TENANT_NAME=admin", "OS_AUTH_URL=http://controller:35357/v2.0"],
-		command => 'keystone endpoint-create --service-id=$(keystone service-list | awk \'/ compute /    {print $2}\') --publicurl=http://controller:8774 --internalurl=http://controller:8774 --adminurl=http://controller:8774',
+		command => 'keystone endpoint-create --service-id=$(keystone service-list | awk \'/ compute /    {print $2}\') --publicurl=http://controller:8774/v2/%\\(tenant_id\\)s --internalurl=http://controller:8774/v2/%\\(tenant_id\\)s --adminurl=http://controller:8774/v2/%\\(tenant_id)\\)s',
 		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
 	}
 	
