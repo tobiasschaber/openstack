@@ -38,7 +38,7 @@ class cc_openstack::roles::controller_node::dashboard {
 	}
 
 	exec { 'remove-ubuntu-theme':
-		command => 'apt-get remove --purge openstack-dashboard-ubuntu-theme',
+		command => 'apt-get -y remove --purge openstack-dashboard-ubuntu-theme',
 		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
 	}
 
