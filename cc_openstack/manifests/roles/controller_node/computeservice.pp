@@ -21,7 +21,7 @@ class cc_openstack::roles::controller_node::computeservice {
 	Package['nova-scheduler'] ->
 	Package['python-novaclient'] ->
 	File['/var/lib/nova/nova.sqlite'] ->
-	File_Line['nova_config_1a'] -> File_Line['nova_config_1b'] -> File_Line['nova_config_1c'] -> File_Line['nova_config_1d'] -> File_Line['nova_config_1e'] -> File_Line['nova_config_1f'] -> File_Line['nova_config_1g'] ->
+	File_Line['nova_config_1a'] -> File_Line['nova_config_1b'] -> File_Line['nova_config_1c'] -> File_Line['nova_config_1d'] -> File_Line['nova_config_1e'] -> File_Line['nova_config_1f'] -> File_Line['nova_config_1g'] -> File_Line['nova_config_1h'] -> File_Line['nova_config_1i'] ->
 	File_Line['nova_config_2a'] -> File_Line['nova_config_2b'] ->
 	File_Line['nova_config_3a'] -> File_Line['nova_config_3b'] -> File_Line['nova_config_3c'] -> File_Line['nova_config_3d'] -> File_Line['nova_config_3e'] -> File_Line['nova_config_3f'] -> File_Line['nova_config_3g'] -> File_Line['nova_config_3h'] ->
 	Exec['create_nova_mysql_1'] ->
