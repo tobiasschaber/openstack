@@ -17,8 +17,8 @@ class cc_openstack::roles::controller_node::imageservice {
 	Exec['install_glance_tables'] ->
 	Exec['keystone_create_glance_user'] ->
 	Exec['keystone_add_glance_role'] ->
-	File_Line['glance_config_3a'] -> File_Line['glance_config_3b'] -> File_Line['glance_config_3c'] -> File_Line['glance_config_3d'] -> File_Line['glance_config_3e'] -> File_Line['glance_config_3f'] ->
-	File_Line['glance_config_4a'] -> File_Line['glance_config_4b'] -> File_Line['glance_config_4c'] -> File_Line['glance_config_4d'] -> File_Line['glance_config_4e'] -> File_Line['glance_config_4f'] ->
+	File_Line['glance_config_3a'] -> File_Line['glance_config_3b'] -> File_Line['glance_config_3c'] -> File_Line['glance_config_3d'] -> File_Line['glance_config_3e'] -> Exec['glance_config_3f'] ->
+	File_Line['glance_config_4a'] -> File_Line['glance_config_4b'] -> File_Line['glance_config_4c'] -> File_Line['glance_config_4d'] -> File_Line['glance_config_4e'] -> Exec['glance_config_4f'] ->
 	Exec['keystone_register_image_service'] ->
 	Exec['keystone_imageservice_endpoint_create'] ->
 	Exec['glance_registry_restart'] ->
@@ -120,14 +120,13 @@ class cc_openstack::roles::controller_node::imageservice {
 	
 	file_line { 'glance_config_3e':
 		path	=> '/etc/glance/glance-api.conf',
-		match	=> '^#?flavor =.*',
-		line	=> 'flavor = keystone',
+		match	=> '^#?flavor=.*',
+		line	=> 'flavor=keystone',
 	}
 	
-	file_line { 'glance_config_3f':
-		path	=> '/etc/glance/glance-api.conf',
-		match	=> '^.keystone_authtoken.*',
-		line	=> '[keystone_authtoken]\nauth_uri = http://controller:5000',
+	exec { 'glance_config_4f':
+		command => 'sed -n 'H;${x;s/^\n//;s/auth_host .*\n/auth_uri = http:\/\/controller:5000\n&/;p;}' /etc/glance/glance-api.conf > glance-api.conf',
+		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
 	}
 	
 	
@@ -159,14 +158,19 @@ class cc_openstack::roles::controller_node::imageservice {
 	
 	file_line { 'glance_config_4e':
 		path	=> '/etc/glance/glance-registry.conf',
-		match	=> '^#?flavor =.*',
-		line	=> 'flavor = keystone',
+		match	=> '^#?flavor=.*',
+		line	=> 'flavor=keystone',
 	}
 	
-	file_line { 'glance_config_4f':
-		path	=> '/etc/glance/glance-registry.conf',
-		line	=> 'auth_uri = http://controller:5000',
+	exec { 'glance_config_4f':
+		command => 'sed -n 'H;${x;s/^\n//;s/auth_host .*\n/auth_uri = http:\/\/controller:5000\n&/;p;}' /etc/glance/glance-registry.conf > glance-registry.conf',
+		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
 	}
+	
+
+	
+	
+	
 	
 	exec { 'keystone_register_image_service':
 		environment => ["OS_USERNAME=admin", "OS_PASSWORD=admin1234", "OS_TENANT_NAME=admin", "OS_AUTH_URL=http://controller:35357/v2.0"],
