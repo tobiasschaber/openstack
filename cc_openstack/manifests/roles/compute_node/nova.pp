@@ -18,7 +18,7 @@ class cc_openstack::roles::compute_node::nova {
 	File_Line['nova_conf_1h'] ->
 	File_Line['nova_conf_1i'] ->
 	File_Line['nova_conf_1j'] ->
-	File_Line['nova_conf_2a'] -> File_Line['nova_conf_2a'] -> File_Line['nova_conf_2b'] -> File_Line['nova_conf_2c'] -> File_Line['nova_conf_2d'] -> File_Line['nova_conf_2e'] -> File_Line['nova_conf_2f'] -> File_Line['nova_conf_2g'] -> 
+	File_Line['nova_conf_2a'] -> File_Line['nova_conf_2b'] -> File_Line['nova_conf_2c'] -> File_Line['nova_conf_2d'] -> File_Line['nova_conf_2e'] -> File_Line['nova_conf_2f'] -> File_Line['nova_conf_2g'] -> 
 	File_Line['nova_conf_2h'] -> File_Line['nova_conf_2i'] -> File_Line['nova_conf_2j'] -> File_Line['nova_conf_2k'] -> File_Line['nova_conf_2l'] -> File_Line['nova_conf_2m'] ->
 	
 	File_Line['nova_conf_1k'] ->
