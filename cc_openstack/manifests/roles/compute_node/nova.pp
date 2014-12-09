@@ -73,7 +73,7 @@ class cc_openstack::roles::compute_node::nova {
 		line	=> 'vnc_enabled = True',
 	}
 	
-	file_line { 'nova_conf_1'g:
+	file_line { 'nova_conf_1g':
 		path	=> '/etc/nova/nova.conf',
 		line	=> 'vncserver_listen = 0.0.0.0',
 	}
