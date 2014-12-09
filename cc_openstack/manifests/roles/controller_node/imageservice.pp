@@ -125,7 +125,7 @@ class cc_openstack::roles::controller_node::imageservice {
 	}
 	
 	exec { 'glance_config_4f':
-		command => 'sed -n 'H;${x;s/^\n//;s/auth_host .*\n/auth_uri = http:\/\/controller:5000\n&/;p;}' /etc/glance/glance-api.conf > glance-api.conf',
+		command => 'sed -n \'H;${x;s/^\n//;s/auth_host .*\n/auth_uri = http:\/\/controller:5000\n&/;p;}\' /etc/glance/glance-api.conf > glance-api.conf',
 		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
 	}
 	
@@ -163,7 +163,7 @@ class cc_openstack::roles::controller_node::imageservice {
 	}
 	
 	exec { 'glance_config_4f':
-		command => 'sed -n 'H;${x;s/^\n//;s/auth_host .*\n/auth_uri = http:\/\/controller:5000\n&/;p;}' /etc/glance/glance-registry.conf > glance-registry.conf',
+		command => 'sed -n \'H;${x;s/^\n//;s/auth_host .*\n/auth_uri = http:\/\/controller:5000\n&/;p;}\' /etc/glance/glance-registry.conf > glance-registry.conf',
 		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
 	}
 	
