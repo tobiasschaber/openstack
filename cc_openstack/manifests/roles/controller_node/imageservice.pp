@@ -126,7 +126,7 @@ class cc_openstack::roles::controller_node::imageservice {
 	
 	# insert a new line after the first occurence of auth_host = ...
 	exec { 'glance_config_3f':
-		command => 'sed -n \'H;${x;s/^\n//;s/auth_host .*\n/auth_uri = http:\/\/controller:5000\n&/;p;}\' /etc/glance/glance-api.conf > /etc/glance/glance-api.conf',
+		command => 'sed -n \'H;${x;s/^\n//;s/auth_host .*\n/auth_uri = http:\/\/controller:5000\n&/;p;}\' /etc/glance/glance-api.conf > glance-api.conf; mv glance-api.conf /etc/glance/glance-api.conf',
 		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
 	}
 	
@@ -165,7 +165,7 @@ class cc_openstack::roles::controller_node::imageservice {
 	
 	# insert a new line after the first occurence of auth_host = ...
 	exec { 'glance_config_4f':
-		command => 'sed -n \'H;${x;s/^\n//;s/auth_host .*\n/auth_uri = http:\/\/controller:5000\n&/;p;}\' /etc/glance/glance-registry.conf > /etc/glance/glance-registry.conf',
+		command => 'sed -n \'H;${x;s/^\n//;s/auth_host .*\n/auth_uri = http:\/\/controller:5000\n&/;p;}\' /etc/glance/glance-registry.conf > glance-registry.conf; mv glance-registry.conf /etc/glance/glance-registry.conf',
 		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
 	}
 	
