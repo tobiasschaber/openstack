@@ -6,7 +6,8 @@ class cc_openstack::roles::compute_node::nova {
 
 	Exec['perform-apt-get-update'] ->	
 	Package['nova-compute-kvm'] ->
-	
+	Package['nova-network'] ->
+	Package['nova-api-metadata'] ->
 	File_Line['nova_conf_1a'] ->
 	File_Line['nova_conf_1b'] ->
 	File_Line['nova_conf_1c'] ->
@@ -17,6 +18,9 @@ class cc_openstack::roles::compute_node::nova {
 	File_Line['nova_conf_1h'] ->
 	File_Line['nova_conf_1i'] ->
 	File_Line['nova_conf_1j'] ->
+	File_Line['nova_conf_2a'] -> File_Line['nova_conf_2a'] -> File_Line['nova_conf_2b'] -> File_Line['nova_conf_2c'] -> File_Line['nova_conf_2d'] -> File_Line['nova_conf_2e'] -> File_Line['nova_conf_2f'] -> File_Line['nova_conf_2g'] -> 
+	File_Line['nova_conf_2h'] -> File_Line['nova_conf_2i'] -> File_Line['nova_conf_2j'] -> File_Line['nova_conf_2k'] -> File_Line['nova_conf_2l'] -> File_Line['nova_conf_2m'] ->
+	
 	File_Line['nova_conf_1k'] ->
 	File_Line['nova_conf_1l'] ->
 	File_Line['nova_conf_1m'] ->
@@ -40,6 +44,15 @@ class cc_openstack::roles::compute_node::nova {
 	package { 'nova-compute-kvm':
 		ensure => "installed",
 	}
+	
+	package { 'nova-network':
+		ensure => "installed",
+	}
+	
+	package { 'nova-api-metadata':
+		ensure => "installed",
+	}
+	
 		
 	file_line { 'nova_conf_1a':
 		path	=> '/etc/nova/nova.conf',
@@ -93,7 +106,96 @@ class cc_openstack::roles::compute_node::nova {
 		line	=> 'glance_host = controller',
 	}
 	
+	
+	
+	
+	
 
+
+
+
+
+
+	
+	# network specific parts
+	file_line { 'nova_conf_2a':
+		path	=> '/etc/nova/nova.conf',
+		line	=> 'network_api_class = nova.network.api.API',
+	}
+	
+	# network specific parts
+	file_line { 'nova_conf_2b':
+		path	=> '/etc/nova/nova.conf',
+		line	=> 'security_group_api = nova',
+	}
+	
+	# network specific parts
+	file_line { 'nova_conf_2c':
+		path	=> '/etc/nova/nova.conf',
+		line	=> 'firewall_driver = nova.virt.libvirt.firewall.IptablesFirewallDriver',
+	}
+	
+	# network specific parts
+	file_line { 'nova_conf_2d':
+		path	=> '/etc/nova/nova.conf',
+		line	=> 'network_manager = nova.network.manager.FlatDHCPManager',
+	}
+	
+	# network specific parts
+	file_line { 'nova_conf_2e':
+		path	=> '/etc/nova/nova.conf',
+		line	=> 'network_size = 254',
+	}
+	
+	# network specific parts
+	file_line { 'nova_conf_2f':
+		path	=> '/etc/nova/nova.conf',
+		line	=> 'allow_same_net_traffic = False',
+	}
+	
+	# network specific parts
+	file_line { 'nova_conf_2g':
+		path	=> '/etc/nova/nova.conf',
+		line	=> 'multi_host = True',
+	}
+
+	
+	# network specific parts
+	file_line { 'nova_conf_2h':
+		path	=> '/etc/nova/nova.conf',
+		line	=> 'send_arp_for_ha = True',
+	}
+	
+	# network specific parts
+	file_line { 'nova_conf_2i':
+		path	=> '/etc/nova/nova.conf',
+		line	=> 'share_dhcp_address = True',
+	}
+	
+	# network specific parts
+	file_line { 'nova_conf_2j':
+		path	=> '/etc/nova/nova.conf',
+		line	=> 'force_dhcp_release = True',
+	}
+	
+	# network specific parts
+	file_line { 'nova_conf_2k':
+		path	=> '/etc/nova/nova.conf',
+		line	=> 'flat_network_bridge = br100',
+	}
+	
+	# network specific parts
+	file_line { 'nova_conf_2l':
+		path	=> '/etc/nova/nova.conf',
+		line	=> 'flat_interface = eth0',
+	}
+	
+	# network specific parts
+	file_line { 'nova_conf_2m':
+		path	=> '/etc/nova/nova.conf',
+		line	=> 'public_interface = eth0',
+	}
+	
 		
 	
 	file_line { 'nova_conf_1k':
@@ -145,6 +247,23 @@ class cc_openstack::roles::compute_node::nova {
 		path	=> '/etc/nova/nova.conf',
 		line	=> 'admin_password = nova1234',
 	}
+	
+	
+	
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	file { '/var/lib/nova/nova.sqlite':
