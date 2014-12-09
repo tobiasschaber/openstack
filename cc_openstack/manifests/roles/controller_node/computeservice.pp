@@ -173,7 +173,7 @@ class cc_openstack::roles::controller_node::computeservice {
 	}
 	
 	exec { 'create_nova_mysql_3':
-		command => 'mysql --user=root --password=tobias1234 --execute="GRANT ALL PRIVILEGES ON nova.* TO \'nova\'@\'localhost\' IDENTIFIED BY \'nova1234\'"',
+		command => 'mysql --user=root --password=tobias1234 --execute="GRANT ALL PRIVILEGES ON nova.* TO \'nova\'@\'%\' IDENTIFIED BY \'nova1234\'"',
 		path	=> '/usr/bin/',
 	}
 	
