@@ -55,7 +55,7 @@ class cc_openstack::roles::controller_node::dashboard {
 		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
 	}
 	
-	exec { 'memcached-restart':
+	exec { 'memcached_restart':
 		command => 'service memcached restart',
 		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
 	}
