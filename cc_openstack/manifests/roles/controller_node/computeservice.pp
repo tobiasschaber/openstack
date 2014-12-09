@@ -109,6 +109,16 @@ class cc_openstack::roles::controller_node::computeservice {
 		line	=> 'auth_strategy = keystone',
 	}	
 	
+	file_line { 'nova_config_1h':
+		path	=> '/etc/nova/nova.conf',
+		line	=> 'network_api_class = nova.network.api.API',
+	}	
+
+	file_line { 'nova_config_1i':
+		path	=> '/etc/nova/nova.conf',
+		line	=> 'security_group_api = nova',
+	}	
+	
 
 	file_line { 'nova_config_2a':
 		path	=> '/etc/nova/nova.conf',
