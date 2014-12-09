@@ -32,7 +32,9 @@ class cc_openstack::roles::compute_node::nova {
 	File_Line['nova_conf_1s'] ->
 	File_Line['nova_conf_1t'] ->
 	File['/var/lib/nova/nova.sqlite'] ->
-	Exec['nova-compute-restart-now']
+	Exec['nova-compute-restart-now'] ->
+	Exec['nova-network-restart'] ->
+	Exec['nova-api-metadata-restart']
 	
 
 	exec { 'perform-apt-get-update':
@@ -275,7 +277,19 @@ class cc_openstack::roles::compute_node::nova {
 		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
 	}
 	
+	exec { 'nova-network-restart':
+		command => 'service nova-network restart',
+		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
+	}
+	
+	exec { 'nova-api-metadata-restart':
+		command => 'service nova-api-metadata restart',
+		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
+	}
+	
 
+	
+	
 
 
 	
