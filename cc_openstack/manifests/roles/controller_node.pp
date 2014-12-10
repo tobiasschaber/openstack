@@ -1,6 +1,17 @@
 
 
-
+#
+# This is the main part (and entry point) if you want to install a controller node.
+# The controller node contains the following parts:
+#  - MySQL Server
+#  - Client Tools
+#  - Keystone (User and Authentication Services)
+#  - Compute Service (Host System)
+#  - Dashboard (Horizon)
+#  - Image Service (Glance)
+#
+# The server needs two network interfaces and will get the static IP 10.0.0.11 and hostname "controller"
+#
 class cc_openstack::roles::controller_node {
 
 	include cc_openstack::roles::controller_node::network
@@ -35,16 +46,4 @@ class cc_openstack::roles::controller_node {
 		ensure	=> "installed",
 	}
 	
-	
-
-	
-	## AKTUELLER STAND
-	## DER MYSQL_RESTART SCHEINT NICHT ZU KLAPPEN, LETZTES MAL HAT ER BEI "STOPPED" STATUS NICHT MEHR STARTEN KÖNNEN
-	# DONE ## AUSSERDEM SCHEINT DER keystone-db-user NOCH "root" ZU SEIN ANSTELLE "keystone"
-	
-
-	
-
-	
-
 }

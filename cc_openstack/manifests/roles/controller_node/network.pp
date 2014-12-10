@@ -1,6 +1,11 @@
 
 
-
+#
+# set up the basic network needs on the controller node 
+# (set a static ip 10.0.0.11 at the second interface etc.)
+#
+#
+#
 class cc_openstack::roles::controller_node::network {
 
 	notify { 'Starting Network configuration':}

@@ -1,5 +1,12 @@
 
 
+
+#
+# install the mysql database.
+#
+# root credentials:		root/tobias1234
+#
+#
 class cc_openstack::roles::controller_node::mysqlserver {
 
 	Package['python-mysqldb'] ->

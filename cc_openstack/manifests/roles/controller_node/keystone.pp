@@ -1,27 +1,27 @@
 
-# Das klappt um kesystone befehle abzusetzen:
-# export OS_SERVICE_TOKEN=dac71b0650e9aa927577
-# export OS_SERVICE_ENDPOINT=http://controller:35357/v2.0
-# dann unset auf beide
-# keystone --os-username=admin --os-password=admin1234 --os-auth-url=http://controller:35357/v2.0 token-get
-# keystone --os-username=admin --os-password=admin1234 --os-auth-url=http://controller:35357/v2.0 --os-tenant-name=admin token-get
-# Korrektes source file erzeugen
+#
+# keystone is the central repository storing users, groups, tenants, services and endpoints.
+# To use the keystone-client (from command line), follow the following instructions:
+#
+# create a new file "source-admin" and write the following 4 lines into it:
 # export OS_USERNAME=admin
 # export OS_PASSWORD=admin1234
 # export OS_TENANT_NAME=admin
 # export OS_AUTH_URL=http://controller:35357/v2.0
-# source <sourcefile>
-# keystone token-get
-# Dann noch die beiden auth_uri und flavor an die original stellen verschieben !!!!!
-
-# und dann mal einen reboot oder so..
-
-
-
-# use this admin token: dac71b0650e9aa927577
-# mysql credentials: admin/tobias1234
-# keystone admin credentials: admin/admin1234
-# keystone demo credentials: demo/demo1234
+# execute "source source-admin"
+# you now should be able to call the "keystone" tool without authentication parameters.
+# you also can override the authentication credentials by providing the following env vars:
+# export OS_SERVICE_TOKEN=dac71b0650e9aa927577
+# export OS_SERVICE_ENDPOINT=http://controller:35357/v2.0
+#
+# a third solution is to pass the authentication params via the command line. e.g.:
+# keystone --os-username=admin --os-password=admin1234 --os-auth-url=http://controller:35357/v2.0 token-get
+# keystone --os-username=admin --os-password=admin1234 --os-auth-url=http://controller:35357/v2.0 --os-tenant-name=admin token-get
+#
+# use this admin token: 		dac71b0650e9aa927577
+# mysql credentials: 			admin/tobias1234
+# keystone admin credentials: 	admin/admin1234
+# keystone demo credentials: 	demo/demo1234
 
 class cc_openstack::roles::controller_node::keystone {
 
@@ -54,6 +54,7 @@ class cc_openstack::roles::controller_node::keystone {
 	}
 	
 	#should match the following line: 	=> 'connection = sqlite:////var/lib/keystone/keystone.db',
+	# add the mysql connection url to the config
 	file_line { 'keystone_config_1':
 		path	=> '/etc/keystone/keystone.conf',
 		match	=> '^connection.*',
@@ -61,16 +62,18 @@ class cc_openstack::roles::controller_node::keystone {
 	}
 	
 
-	
+	# remove the db file to prevent its usage by accident
 	file { '/var/lib/keystone/keystone.db':
 		ensure => absent,
 	}
 	
+	# create a new mysql database for keystone
 	exec { 'create_keystone_mysql_1':
 		command => 'mysql --user=root --password=tobias1234 --execute=\'CREATE DATABASE keystone\'',
 		path	=> '/usr/bin/',
 	}
 	
+	# create a keystone mysql user and grant access
 	exec { 'create_keystone_mysql_2':
 		command => 'mysql --user=root --password=tobias1234 --execute="GRANT ALL PRIVILEGES ON keystone.* TO \'keystone\'@\'localhost\' IDENTIFIED BY \'tobias1234\'"',
 		path	=> '/usr/bin/',
@@ -81,17 +84,20 @@ class cc_openstack::roles::controller_node::keystone {
 		path	=> '/usr/bin/',
 	}
 	
+	# execute this to install the mysql tables for keystone
 	exec { 'install_keystone_tables':
 		command => 'su -s /bin/sh -c "keystone-manage db_sync" keystone',
 		path	=> '/bin/',
 	}
 	
+	# add the admin token to the config
 	file_line { 'keystone_config_2':
 		path	=> '/etc/keystone/keystone.conf',
 		match	=> '^#?admin_token=.*',
 		line	=> 'admin_token=dac71b0650e9aa927577',
 	}
 	
+	# set the log dir in the config
 	file_line { 'keystone_config_3':
 		path	=> '/etc/keystone/keystone.conf',
 		match	=> '^#?log_dir=.*',
@@ -99,6 +105,7 @@ class cc_openstack::roles::controller_node::keystone {
 	}
 	
 	
+	# restart keystone
 	exec { 'keystone_restart':
 		command => 'service keystone restart',
 		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],

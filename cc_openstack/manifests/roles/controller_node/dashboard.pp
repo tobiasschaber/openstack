@@ -1,6 +1,12 @@
 
 
 
+
+#
+# installs the horizon dashboard (web gui)
+#
+#
+#
 class cc_openstack::roles::controller_node::dashboard {
 
 	Exec['apt-get-update'] ->
@@ -37,17 +43,22 @@ class cc_openstack::roles::controller_node::dashboard {
 		ensure => "installed",
 	}
 
+	
+	# remove the ubuntu theme because it has failures in translation and does not show menus
 	exec { 'remove-ubuntu-theme':
 		command => 'apt-get -y remove --purge openstack-dashboard-ubuntu-theme',
 		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
 	}
 
 
+	# set the hostname of the controller
 	file_line { 'dashboard_config_1':
 		path	=> '/etc/openstack-dashboard/local_settings.py',
 		match	=> '^#?OPENSTACK_HOST =.*',
 		line	=> 'OPENSTACK_HOST = "controller"',
 	}
+	
+	# restart different services
 	
 	
 	exec { 'apache2_restart':
