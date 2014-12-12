@@ -80,7 +80,7 @@ class cc_openstack::roles::compute_node::nova {
 	#TODO myip? soll er doch selber wissen bitte... TODO
 	file_line { 'nova_conf_1e':
 		path	=> '/etc/nova/nova.conf',
-		line	=> 'my_ip = 10.0.0.25',
+		line	=> "my_ip = ${ipaddress_eth1}",
 	}
 	
 	file_line { 'nova_conf_1f':
@@ -95,7 +95,7 @@ class cc_openstack::roles::compute_node::nova {
 	
 	file_line { 'nova_conf_1h':
 		path	=> '/etc/nova/nova.conf',
-		line	=> 'vncserver_proxyclient_address = 10.0.0.25',
+		line	=> "vncserver_proxyclient_address = ${ipaddress_eth1}",
 	}
 	
 	file_line { 'nova_conf_1i':
