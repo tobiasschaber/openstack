@@ -96,19 +96,19 @@ class cc_openstack::roles::controller_node::computeservice {
 	# set the local ip adress
 	file_line { 'nova_config_1d':
 		path	=> '/etc/nova/nova.conf',
-		line	=> 'my_ip = 10.0.0.11',
+		line	=> 'my_ip = 172.16.0.100',
 	}
 	
 	# set the local ip adress for the vnc server
 	file_line { 'nova_config_1e':
 		path	=> '/etc/nova/nova.conf',
-		line	=> 'vncserver_listen = 10.0.0.11',
+		line	=> 'vncserver_listen = 172.16.0.100',
 	}
 	
 	# set the local ip adress for the vnc proxy
 	file_line { 'nova_config_1f':
 		path	=> '/etc/nova/nova.conf',
-		line	=> 'vncserver_proxyclient_address = 10.0.0.11',
+		line	=> 'vncserver_proxyclient_address = 172.16.0.100',
 	}	
 	
 	# use "keystone" as authentication provider

@@ -10,7 +10,7 @@
 #  - Dashboard (Horizon)
 #  - Image Service (Glance)
 #
-# The server needs two network interfaces and will get the static IP 10.0.0.11 and hostname "controller"
+# The server needs two network interfaces and will get the static IP 172.16.0.100 and hostname "controller"
 #
 class cc_openstack::roles::controller_node {
 
