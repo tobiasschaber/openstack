@@ -1,7 +1,7 @@
 
 
 #
-# this class is no longer used. ensure the following things for the controller node:
+# this class provides the network for controller node
 #
 # - ip address must be 172.16.0.100
 # - only one network interface (the management network) with internet access. connect it to the private vlan
