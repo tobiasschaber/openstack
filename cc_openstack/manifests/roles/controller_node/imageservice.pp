@@ -208,7 +208,7 @@ class cc_openstack::roles::controller_node::imageservice {
 	}
 			
 	exec { 'glance_api_restart':
-		command => 'service glance-api restart',
+		command => 'sleep 10; service glance-api restart; sleep 10;',
 		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
 	}
 	

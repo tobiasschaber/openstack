@@ -5,6 +5,7 @@
 #
 # - ip address must be 172.16.0.100
 # - only one network interface (the management network) with internet access. connect it to the private vlan
+# - the hostname must be "controller"
 #
 #
 #
@@ -56,8 +57,8 @@ class cc_openstack::roles::controller_node::network {
 	## FUNKTIONIERT DIESER MATCHER !?
 	file_line { 'etc_hosts_change_1':
 		path	=> '/etc/hosts',
-		match	=> '127.0.1.1	controller',
-		line	=> '#127.0.1.1	controller',
+		match	=> '127.0.1.1	controller.local.cloud	controller',
+		line	=> '#127.0.1.1	controller.local.cloud	controller',
 	}
 	
 	file_line { 'etc_hosts_change_2':
@@ -67,7 +68,7 @@ class cc_openstack::roles::controller_node::network {
 	
 	file_line { 'etc_hosts_change_3':
 		path	=> '/etc/hosts',
-		line	=> '172.16.0.100	controller',
+		line	=> '172.16.0.100	controller.local.cloud	controller',
 	}
 
 
