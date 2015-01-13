@@ -25,7 +25,8 @@ class cc_openstack::roles::controller_node::imageservice {
 	Exec['keystone_imageservice_endpoint_create'] ->
 	Exec['glance_registry_restart'] ->
 	Exec['glance_api_restart'] ->
-	Exec['glance-install-cirros-image']
+	Exec['glance-install-cirros-image'] ->
+	Exec['glance-install-ubuntu-image']
 
 
 	
@@ -218,6 +219,13 @@ class cc_openstack::roles::controller_node::imageservice {
 	exec { 'glance-install-cirros-image':
 		environment => ["OS_USERNAME=admin", "OS_PASSWORD=admin1234", "OS_TENANT_NAME=admin", "OS_AUTH_URL=http://controller:35357/v2.0"],
 		command => 'glance image-create --name="cirros-0.3.2-x86_64" --disk-format=qcow2 --container-format=bare --is-public=true --copy-from http://cdn.download.cirros-cloud.net/0.3.2/cirros-0.3.2-x86_64-disk.img',
+		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
+	}
+	
+	# install an additional ubuntu image that will be available from the beginning
+	exec { 'glance-install-ubuntu-image':
+		environment => ["OS_USERNAME=admin", "OS_PASSWORD=admin1234", "OS_TENANT_NAME=admin", "OS_AUTH_URL=http://controller:35357/v2.0"],
+		command => 'glance image-create --name="ubuntu-12.04-x64-server" --disk-format=qcow2 --container-format=bare --is-public=true --copy-from http://uec-images.ubuntu.com/releases/12.04/release/ubuntu-12.04-server-cloudimg-amd64-disk1.img',
 		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
 	}
 
