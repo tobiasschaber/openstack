@@ -29,7 +29,7 @@ class cc_openstack::roles::controller_node::mysqlserver {
 		override_options => { 
 
 			'mysqld' => { 
-				'bind-address' => '172.16.0.100',
+				"bind-address" => "${ipaddress_eth1}",
 				'default-storage-engine' => 'innodb',
 				'collation-server' => 'utf8_general_ci',
 				'init-connect' => 'SET NAMES utf8',
