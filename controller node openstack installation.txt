@@ -1,0 +1,68 @@
+
+
+C O N T R O L L E R - N O D E - I N S T A L L A T I O N
+
+
+## OFFENE PUNKTE: Mysql Hardening (Anonymen Root Zugriff das sollte weg)
+
+Requires: Ubuntu 14.04 (wegen den openstack packages)
+
+# puppet module install puppetlabs-stdlib
+# puppet module install puppetlabs-mysql
+
+----------------------------------------------------
+append /etc/network/interfaces:
+
+auto eth1
+iface eth1 inet static
+	address 10.0.0.11
+	netmask 255.255.255.0
+	gateway 10.0.0.1
+----------------------------------------------------
+edit /etc/hosts
+
+-> comment 127.0.1.1 controller line
+
+append /etc/hosts:
+
+# controller
+10.0.0.11	controller
+----------------------------------------------------
+# apt-get install ntp
+----------------------------------------------------
+
+
+
+
+
+# apt-get install python-mysqldb mysql-server
+	ROOT-PASSWORT: tobias1234
+
+edit /etc/mysql/my.cnf
+-> [mysqld]-section: bind-address = 10.0.0.11 anstelle 127.0.0.1
+
+append under [mysqld-section]:
+default-storage-engine = innodb
+innodb_file_per_table
+collation-server = utf8_general_ci
+init-connect = 'SET NAMES utf8'
+character-set-server = utf8
+
+
+service mysql restart
+# mysql_install_db
+# mysql_secure_installation -> set root password (N), remove anonymous user (Y), N, N, reload privilege tables now (Y)
+
+----------------------------------------------------
+# apt-get install rabbitmq-server
+# rabbitmqctl change_password guest tobias1234
+
+----------------------------------------------------
+
+----------------------------------------------------
+
+----------------------------------------------------
+
+----------------------------------------------------
+
+----------------------------------------------------

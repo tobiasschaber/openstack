@@ -21,8 +21,8 @@ class cc_openstack::roles::compute_node::network {
 	## FUNKTIONIERT DIESER MATCHER !?
 	file_line { 'etc_hosts_cha_1':
 		path	=> '/etc/hosts',
-		match	=> '127.0.1.1	controller.local.cloud	controller',
-		line	=> '#127.0.1.1	controller.local.cloud	controller',
+		match	=> '127.0.1.1	controller.local.cccloud	controller',
+		line	=> '#127.0.1.1	controller.local.cccloud	controller',
 	}
 	
 	file_line { 'etc_hosts_cha_2':
@@ -32,7 +32,7 @@ class cc_openstack::roles::compute_node::network {
 	
 	file_line { 'etc_hosts_cha_3':
 		path	=> '/etc/hosts',
-		line	=> '172.16.0.100	controller.local.cloud	controller',
+		line	=> '172.16.0.100	controller.local.ccloud	controller',
 	}
 
 

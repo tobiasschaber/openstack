@@ -9,6 +9,24 @@
 #
 
 
+# PRE INSTALLATION
+# Vor der Installation ist im Foreman DHCP Server unter dem File /etc/dhcp/dhcpd.conf im unteren Block von "subhet" nach dem pool{} block folgendes einzutragen:
+#
+#  host controller {
+#                hardware ethernet 00:23:7d:be:fd:cc;
+#                fixed-address 172.16.0.100;
+#  }
+#
+# dadurch bekommt der server immer die korrekte IP.
+#
+#
+# Außerdem: unter /etc/foreman-proxy/settings.yml alle Zeilen unter trusted_hosts auskommentieren! ANsonsten gibts nur 403 Forbidden Fehler beim Aufruf von
+# http://10.0.1.175:8000/dhcp/172.16.0.0
+#:trusted_hosts:
+##  - localhost
+##  - 10.0.1.173
+
+
 
 
 class cc_openstack {

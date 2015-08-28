@@ -11,6 +11,7 @@
 #  - Image Service (Glance)
 #
 # The server needs two network interfaces and will get the static IP 172.16.0.100 and hostname "controller"
+# The static IP is defined in the DHCP server of Foreman! https://10.0.1.175:8443/dhcp/172.16.0.0
 #
 class cc_openstack::roles::controller_node {
 

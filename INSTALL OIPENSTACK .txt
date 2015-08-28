@@ -1,0 +1,108 @@
+
+
+######
+
+Eine neue angehängte Festplatte (z.B. /dev/sdb) muss formatiert und gemounted werden.
+Details siehe hier: https://community.hpcloud.com/article/preparing-your-block-storage-volume-use
+
+#######
+
+
+
+## CONTROLLER INSTALLATION
+
+
+### DONE
+
+apt-get install cinder-api cinder-scheduler
+
+
+###
+
+/etc/cinder/cinder.conf : 
+
+[database]
+...
+connection = mysql://cinder:CINDER_DBPASS@controller/cinder
+
+###
+
+# mysql -u root -p
+mysql> CREATE DATABASE cinder;
+
+
+mysql> GRANT ALL PRIVILEGES ON cinder.* TO 'cinder'@'localhost' \
+  IDENTIFIED BY 'CINDER_DBPASS';
+mysql> GRANT ALL PRIVILEGES ON cinder.* TO 'cinder'@'%' \
+  IDENTIFIED BY 'CINDER_DBPASS';
+  
+###
+
+su -s /bin/sh -c "cinder-manage db sync" cinder
+
+
+###
+
+$ keystone user-create --name=cinder --pass=CINDER_PASS --email=cinder@example.com
+$ keystone user-role-add --user=cinder --tenant=service --role=admin
+
+###
+
+
+ /etc/cinder/cinder.conf:
+ ..
+[keystone_authtoken]
+auth_uri = http://controller:5000
+auth_host = controller
+auth_port = 35357
+auth_protocol = http
+admin_tenant_name = service
+admin_user = cinder
+admin_password = CINDER_PASS
+
+[DEFAULT]
+...
+rpc_backend = rabbit
+rabbit_host = controller
+rabbit_port = 5672
+rabbit_userid = guest
+rabbit_password = RABBIT_PASS
+
+
+
+
+###
+
+$ keystone service-create --name=cinder --type=volume --description="OpenStack Block Storage"
+$ keystone endpoint-create \
+  --service-id=$(keystone service-list | awk '/ volume / {print $2}') \
+  --publicurl=http://controller:8776/v1/%\(tenant_id\)s \
+  --internalurl=http://controller:8776/v1/%\(tenant_id\)s \
+  --adminurl=http://controller:8776/v1/%\(tenant_id\)s
+  
+###
+
+
+
+
+$ keystone service-create --name=cinderv2 --type=volumev2 --description="OpenStack Block Storage v2"
+$ keystone endpoint-create \
+  --service-id=$(keystone service-list | awk '/ volumev2 / {print $2}') \
+  --publicurl=http://controller:8776/v2/%\(tenant_id\)s \
+  --internalurl=http://controller:8776/v2/%\(tenant_id\)s \
+  --adminurl=http://controller:8776/v2/%\(tenant_id\)s
+  
+###
+
+# service cinder-scheduler restart
+# service cinder-api restart
+
+
+
+
+
+
+install on controller: block storage
+
+
+apt-get install cinder-api cinder-scheduler
