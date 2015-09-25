@@ -62,13 +62,9 @@ class cc_openstack::roles::controller_node::imageservice {
 		ensure => absent,
 	}
 	
-	
-	
-	
-	
-	# create a new mysql database for glance
+	# create a new mysql database for glance if it does not already exist
 	exec { 'create_glance_mysql_1':
-		command => 'mysql --user=root --password=tobias1234 --execute=\'CREATE DATABASE glance\'',
+		command => 'mysql --user=root --password=tobias1234 --execute=\'CREATE DATABASE IF NOT EXISTS glance\'',
 		path	=> '/usr/bin/',
 	}
 	
@@ -93,14 +89,16 @@ class cc_openstack::roles::controller_node::imageservice {
 	# create a new keystone user for glance
 	exec { 'keystone_create_glance_user':
 		environment => ["OS_USERNAME=admin", "OS_PASSWORD=admin1234", "OS_TENANT_NAME=admin", "OS_AUTH_URL=http://controller:35357/v2.0"],
-		command => 'keystone user-create --name=glance --pass=glance1234 --email=glance@controller',
+		command => "echo created keystone glance user",
+		onlyif => 'keystone user-create --name=glance --pass=glance1234 --email=glance@controller',
 		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
 	}
 	
 	# add the new user to a role
 	exec { 'keystone_add_glance_role':
 		environment => ["OS_USERNAME=admin", "OS_PASSWORD=admin1234", "OS_TENANT_NAME=admin", "OS_AUTH_URL=http://controller:35357/v2.0"],
-		command => 'keystone user-role-add --user=glance --tenant=service --role=admin',
+		command => "echo added keystone glance role",
+		onlyif => 'keystone user-role-add --user=glance --tenant=service --role=admin',
 		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
 	}
 	
@@ -192,14 +190,16 @@ class cc_openstack::roles::controller_node::imageservice {
 	# create a new keystone service for glance
 	exec { 'keystone_register_image_service':
 		environment => ["OS_USERNAME=admin", "OS_PASSWORD=admin1234", "OS_TENANT_NAME=admin", "OS_AUTH_URL=http://controller:35357/v2.0"],
-		command => 'keystone service-create --name=glance --type=image --description=OpenStackImageService',
+		command => "echo registered image service",
+		onlyif => 'keystone service-create --name=glance --type=image --description=OpenStackImageService',
 		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
 	}
 	
 	# create a new endpoint in keystone for glance
 	exec { 'keystone_imageservice_endpoint_create':
 		environment => ["OS_USERNAME=admin", "OS_PASSWORD=admin1234", "OS_TENANT_NAME=admin", "OS_AUTH_URL=http://controller:35357/v2.0"],
-		command => 'keystone endpoint-create --service-id=$(keystone service-list | awk \'/ image /    {print $2}\') --publicurl=http://controller:9292 --internalurl=http://controller:9292 --adminurl=http://controller:9292',
+		command => "echo created keystone imageservice endpoint",
+		onlyif => 'keystone endpoint-create --service-id=$(keystone service-list | awk \'/ image /    {print $2}\') --publicurl=http://controller:9292 --internalurl=http://controller:9292 --adminurl=http://controller:9292',
 		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
 	}
 	
@@ -218,16 +218,22 @@ class cc_openstack::roles::controller_node::imageservice {
 	# install a basic image (cirros) that will be available from the beginning
 	exec { 'glance-install-cirros-image':
 		environment => ["OS_USERNAME=admin", "OS_PASSWORD=admin1234", "OS_TENANT_NAME=admin", "OS_AUTH_URL=http://controller:35357/v2.0"],
-		command => 'glance image-create --name="cirros-0.3.2-x86_64" --disk-format=qcow2 --container-format=bare --is-public=true --copy-from http://cdn.download.cirros-cloud.net/0.3.2/cirros-0.3.2-x86_64-disk.img',
+		command => "echo installed cirros image",
+		onlyif => 'glance image-create --name="cirros-0.3.2-x86_64" --disk-format=qcow2 --container-format=bare --is-public=true --copy-from http://cdn.download.cirros-cloud.net/0.3.2/cirros-0.3.2-x86_64-disk.img',
 		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
 	}
+
 	
 	# install an additional ubuntu image that will be available from the beginning
 	exec { 'glance-install-ubuntu-image':
 		environment => ["OS_USERNAME=admin", "OS_PASSWORD=admin1234", "OS_TENANT_NAME=admin", "OS_AUTH_URL=http://controller:35357/v2.0"],
-		command => 'glance image-create --name="ubuntu-12.04-x64-server" --disk-format=qcow2 --container-format=bare --is-public=true --copy-from http://uec-images.ubuntu.com/releases/12.04/release/ubuntu-12.04-server-cloudimg-amd64-disk1.img',
+		command => "echo installed ubuntu image",
+		onlyif => 'glance image-create --name="ubuntu-12.04-x64-server" --disk-format=qcow2 --container-format=bare --is-public=true --copy-from http://uec-images.ubuntu.com/releases/12.04/release/ubuntu-12.04-server-cloudimg-amd64-disk1.img',
 		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
 	}
 
 	
 }
+
+
+
