@@ -1,0 +1,32 @@
+
+
+Achtung! Diese Installationsanleitung setzt die vorherige Durchführung von "2_Foreman_installation" voraus!
+
+
+1. VORBEREITUNG UND INFORMATIONEN
+---------------------------------------------------------------------------------------------
+
+Das Openstack Modul checkt das Openstack Puppet Modul aus bitbucket aus und importiert es in foreman. Dies 
+erfolgt bereits als Teil der Installation von theforeman!
+
+Dieses Modul kann jedoch auch separat und wiederholt geupdated werden. Hierzu wie folgt vorgehen:
+
+	cd ~/theforeman
+	chmod +x update-openstack-module.sh
+	./update-openstack-module.sh
+	
+	
+	
+2. INSTALLATION ÜBER THEFOREMAN
+---------------------------------------------------------------------------------------------
+
+	1. Den Server für den künftigen Controller über das Discovery Plugin erkennen lassen. Hierzu zunächst den Controller rebooten
+	2. Unter "Hosts -> Discovered Hosts" bei dem neuen Host auf "Bereitstellen"
+	3. Name: Controller
+	   Hostgroup: openstack-controller
+	   Prüfen, ob alle anderen Werte im Reiter hierdurch gesetzt werden (z.B. Puppet CA)
+	4. Unter "Interfaces": Beide Interfaces müssen eingerichtet sein.
+	5. Unter "Operating System": Root-Passwort auf 123123123 setzen
+	6. Unter "Operating System": Button "Auflösen" klicken
+	
+	Der Server wird nun automatisch rebootet und anschließend provisioniert.

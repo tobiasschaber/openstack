@@ -6,6 +6,8 @@ Login mit:		admin / admin1234
 Voraussetzungen
 
 
+
+# SOLLTE NICHT MEHR NÖTIG SEIN, ZU TESTEN!!
 Vor der Installation ist im Foreman DHCP Server unter dem File /etc/dhcp/dhcpd.conf im unteren Block von "subhet" nach dem pool{} block folgendes einzutragen:
  host controller {
                hardware ethernet 00:23:7d:be:fd:cc;
@@ -18,7 +20,6 @@ dadurch bekommt der server immer die korrekte IP.
 
 
 
-In Foreman muss das folgende puppet modul ausgewählt werden:
-	cc_openstack::roles::controller_node
+
 	
 In Foreman muss in der hosts außerdem controller.local.cccloud aufgelöst sein auf die 10.0.*.*
