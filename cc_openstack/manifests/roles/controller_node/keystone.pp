@@ -69,7 +69,7 @@ class cc_openstack::roles::controller_node::keystone {
 	
 	# create a new mysql database for keystone
 	exec { 'create_keystone_mysql_1':
-		command => 'mysql --user=root --password=tobias1234 --execute=\'CREATE DATABASE keystone\'',
+		command => 'mysql --user=root --password=tobias1234 --execute=\'CREATE DATABASE IF NOT EXISTS keystone\'',
 		path	=> '/usr/bin/',
 	}
 	

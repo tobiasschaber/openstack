@@ -21,10 +21,10 @@ class cc_openstack::roles::controller_node::clienttools {
 	
 	# install pip, an alternative package manager. I'm not sure if we still use pip at any
 	# point or if we replaced its usage with apt-get, so I wont remove it now	
-	exec { 'install_pip':
-		command => 'easy_install pip',
-		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
-	}
+#	exec { 'install_pip':
+#		command => 'easy_install pip',
+#		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
+#	}
 
 	# ceilometer client
 	package { 'python-ceilometerclient':
