@@ -219,6 +219,7 @@ class cc_openstack::roles::controller_node::computeservice {
 	exec { 'keystone_create_nova_user':
 		environment => ["OS_USERNAME=admin", "OS_PASSWORD=admin1234", "OS_TENANT_NAME=admin", "OS_AUTH_URL=http://controller:35357/v2.0"],
 		command => 'keystone user-create --name=nova --pass=nova1234 --email=nova@controller',
+		onlyif  => 'test ! \"keystone user-list | grep -c nova\"',
 		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
 	}
 	
@@ -226,6 +227,7 @@ class cc_openstack::roles::controller_node::computeservice {
 	exec { 'keystone_add_nova_role':
 		environment => ["OS_USERNAME=admin", "OS_PASSWORD=admin1234", "OS_TENANT_NAME=admin", "OS_AUTH_URL=http://controller:35357/v2.0"],
 		command => 'keystone user-role-add --user=nova --tenant=service --role=admin',
+		onlyif  => 'test ! \"keystone user-list | grep -c nova\"',
 		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
 	}
 	
@@ -233,6 +235,7 @@ class cc_openstack::roles::controller_node::computeservice {
 	exec { 'keystone_register_compute_service':
 		environment => ["OS_USERNAME=admin", "OS_PASSWORD=admin1234", "OS_TENANT_NAME=admin", "OS_AUTH_URL=http://controller:35357/v2.0"],
 		command => 'keystone service-create --name=nova --type=compute --description=OpenStackComputeService',
+		onlyif  => 'test ! \"keystone service-list | grep -c nova\"',
 		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
 	}
 	
@@ -240,6 +243,7 @@ class cc_openstack::roles::controller_node::computeservice {
 	exec { 'keystone_computeservice_endpoint_create':
 		environment => ["OS_USERNAME=admin", "OS_PASSWORD=admin1234", "OS_TENANT_NAME=admin", "OS_AUTH_URL=http://controller:35357/v2.0"],
 		command => 'keystone endpoint-create --service-id=$(keystone service-list | awk \'/ compute /    {print $2}\') --publicurl=http://controller:8774/v2/%\(tenant_id\)s --internalurl=http://controller:8774/v2/%\(tenant_id\)s --adminurl=http://controller:8774/v2/%\(tenant_id\)s',
+		onlyif  => 'test ! \"keystone endpoint-list | grep -c 8774\"',
 		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
 	}
 
