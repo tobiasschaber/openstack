@@ -193,7 +193,7 @@ class cc_openstack::roles::controller_node::computeservice {
 		
 	# create a new database for nova
 	exec { 'create_nova_mysql_1':
-		command => 'mysql --user=root --password=tobias1234 --execute=\'CREATE DATABASE nova\'',
+		command => 'mysql --user=root --password=tobias1234 --execute=\'CREATE DATABASE IF NOT EXISTS nova\'',
 		path	=> '/usr/bin/',
 	}
 	

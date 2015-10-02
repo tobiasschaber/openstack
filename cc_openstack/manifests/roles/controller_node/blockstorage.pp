@@ -131,7 +131,7 @@ class cc_openstack::roles::controller_node::blockstorage {
 	
 	# create a new mysql database for cinder
 	exec { 'create_cinder_mysql_1':
-		command => 'mysql --user=root --password=tobias1234 --execute=\'CREATE DATABASE cinder\'',
+		command => 'mysql --user=root --password=tobias1234 --execute=\'CREATE DATABASE IF NOT EXISTS cinder\'',
 		path	=> '/usr/bin/',
 	}
 	
