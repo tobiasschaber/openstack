@@ -20,7 +20,8 @@ class cc_openstack::roles::controller_node::network {
 #	Exec['ifup_eth1'] ->
 	File_Line['etc_hosts_change_1'] ->
 	File_Line['etc_hosts_change_2'] ->
-	File_Line['etc_hosts_change_3']
+	File_Line['etc_hosts_change_3'] ->
+	File_Line['etc_hosts_change_4']
 	
 
 #	file_line { 'append_mgmt_interface_1':
@@ -68,7 +69,12 @@ class cc_openstack::roles::controller_node::network {
 	
 	file_line { 'etc_hosts_change_3':
 		path	=> '/etc/hosts',
-		line	=> '172.16.0.100	controller.local.cccloud	controller',
+		line	=> "${ipaddress_eth1}	controller.local.cccloud	controller",
+	}
+	
+	file_line { 'etc_hosts_change_4':
+		path	=> '/etc/hosts',
+		line	=> "10.0.1.175	server.local.cccloud	server",
 	}
 
 

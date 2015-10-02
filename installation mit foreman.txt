@@ -1,6 +1,8 @@
 
 
-
+openstack URL: 	http://10.0.1.12/horizon/auth/login/
+Login mit:		admin / admin1234
+				tobias / tobias1234
 Voraussetzungen
 
 
