@@ -147,9 +147,9 @@ class cc_openstack::roles::controller_node::blockstorage {
 		path	=> '/usr/bin/',
 	}
 	
-	# execute this to install the cinder database tables needed
+	# execute this to install the cinder database tables needed. was: db_sync, is now: db sync.
 	exec { 'install_cinder_tables':
-		command => 'su -s /bin/sh -c "cinder-manage db_sync" cinder',
+		command => 'su -s /bin/sh -c "cinder-manage db sync" cinder',
 		path	=> '/bin/',
 	}
 	
