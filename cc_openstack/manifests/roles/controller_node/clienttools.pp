@@ -7,7 +7,7 @@
 # You can install the command line tools on any other machine if you like.
 class cc_openstack::roles::controller_node::clienttools {
 
-	Exec['install_pip'] ->
+#	Exec['install_pip'] ->
 	Package['python-ceilometerclient'] ->
 	Package['python-cinderclient'] ->
 #	Package['install-python-glanceclient'] ->	#	is already installed in another module
