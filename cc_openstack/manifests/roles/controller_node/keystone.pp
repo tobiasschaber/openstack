@@ -122,35 +122,35 @@ class cc_openstack::roles::controller_node::keystone {
 	exec { 'keystone_create_admin_user':
 		environment => ["OS_SERVICE_TOKEN=dac71b0650e9aa927577", "OS_SERVICE_ENDPOINT=http://controller:35357/v2.0"],
 		command => 'sleep 10; keystone user-create --name=admin --email=admin@controller --pass=admin1234',
-		unless  => 'keystone user-list | grep -c admin',
+		onlyif  => '! keystone user-list | grep -c admin',
 		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
 	}
 	
 	exec { 'keystone_create_admin_role':
 		environment => ["OS_SERVICE_TOKEN=dac71b0650e9aa927577", "OS_SERVICE_ENDPOINT=http://controller:35357/v2.0"],
 		command => 'keystone role-create --name=admin',
-		unless  => 'keystone role-list | grep -c admin',
+		onlyif  => '! keystone role-list | grep -c admin',
 		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
 	}
 
 	exec { 'keystone_create_admin_tenant':
 		environment => ["OS_SERVICE_TOKEN=dac71b0650e9aa927577", "OS_SERVICE_ENDPOINT=http://controller:35357/v2.0"],
 		command => 'keystone tenant-create --name=admin --description=AdminTenant',
-		unless  => 'keystone tenant-list | grep -c admin',
+		onlyif  => '! keystone tenant-list | grep -c admin',
 		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
 	}	
 	
 	exec { 'keystone_link_admin':
 		environment => ["OS_SERVICE_TOKEN=dac71b0650e9aa927577", "OS_SERVICE_ENDPOINT=http://controller:35357/v2.0"],
 		command => 'keystone user-role-add --user=admin --tenant=admin --role=admin',
-		unless  => 'keystone user-role-list --user=admin --tenant=admin | grep -c admin',
+		onlyif  => '! keystone user-role-list --user=admin --tenant=admin | grep -c admin',
 		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
 	}	
 
 	exec { 'keystone_link_admin_member':
 		environment => ["OS_SERVICE_TOKEN=dac71b0650e9aa927577", "OS_SERVICE_ENDPOINT=http://controller:35357/v2.0"],
 		command => 'keystone user-role-add --user=admin --role=_member_ --tenant=admin',
-		unless  => 'keystone user-role-list --user=admin --tenant=admin | grep -c member',
+		onlyif  => '! keystone user-role-list --user=admin --tenant=admin | grep -c member',
 		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
 	}
 
@@ -161,42 +161,42 @@ class cc_openstack::roles::controller_node::keystone {
 	exec { 'keystone_create_demo_user':
 		environment => ["OS_SERVICE_TOKEN=dac71b0650e9aa927577", "OS_SERVICE_ENDPOINT=http://controller:35357/v2.0"],
 		command => 'keystone user-create --name=demo --pass=demo1234 --email=demo@controller',
-		unless  => 'keystone user-list | grep -c demo',
+		onlyif  => '! keystone user-list | grep -c demo',
 		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
 	}
 
 	exec { 'keystone_create_demo_tenant':
 		environment => ["OS_SERVICE_TOKEN=dac71b0650e9aa927577", "OS_SERVICE_ENDPOINT=http://controller:35357/v2.0"],
 		command => 'keystone tenant-create --name=demo --description=DemoTenant',
-		unless  => 'keystone tenant-list | grep -c demo',
+		onlyif  => '! keystone tenant-list | grep -c demo',
 		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
 	}
 	
 	exec { 'keystone_link_demo_user':
 		environment => ["OS_SERVICE_TOKEN=dac71b0650e9aa927577", "OS_SERVICE_ENDPOINT=http://controller:35357/v2.0"],
 		command => 'keystone user-role-add --user=demo --role=_member_ --tenant=demo',
-		unless  => 'keystone user-role-list --user=demo --tenant=demo | grep -c member',
+		onlyif  => '! keystone user-role-list --user=demo --tenant=demo | grep -c member',
 		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
 	}
 	
 	exec { 'keystone_create_service_tenant':
 		environment => ["OS_SERVICE_TOKEN=dac71b0650e9aa927577", "OS_SERVICE_ENDPOINT=http://controller:35357/v2.0"],
 		command => 'keystone tenant-create --name=service --description=ServiceTenant',
-		unless  => 'keystone tenant-list | grep -c service',
+		onlyif  => '! keystone tenant-list | grep -c service',
 		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
 	}
 
 	exec { 'keystone_register_service':
 		environment => ["OS_SERVICE_TOKEN=dac71b0650e9aa927577", "OS_SERVICE_ENDPOINT=http://controller:35357/v2.0"],
 		command => 'keystone service-create --name=keystone --type=identity --description=OpenStackIdentity',
-		unless  => 'keystone service-list | grep -c identity',
+		onlyif  => '! keystone service-list | grep -c identity',
 		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
 	}
 	
 	exec { 'keystone_create_endpoint':
 		environment => ["OS_SERVICE_TOKEN=dac71b0650e9aa927577", "OS_SERVICE_ENDPOINT=http://controller:35357/v2.0"],
 		command => 'keystone endpoint-create --service-id=$(keystone service-list | awk \'/ identity / {print $2}\') --publicurl=http://controller:5000/v2.0 --internalurl=http://controller:5000/v2.0 --adminurl=http://controller:35357/v2.0',
-		unless  => 'keystone endpoint-list | grep -c controller',
+		onlyif  => '! keystone endpoint-list | grep -c controller',
 		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
 	}	
 	
