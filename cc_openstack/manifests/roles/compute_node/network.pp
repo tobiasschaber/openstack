@@ -32,7 +32,7 @@ class cc_openstack::roles::compute_node::network {
 	
 	file_line { 'etc_hosts_cha_3':
 		path	=> '/etc/hosts',
-		line	=> '172.16.0.100	controller.local.ccloud	controller',
+		line	=> '172.16.0.100	controller.local.cccloud	controller',
 	}
 
 

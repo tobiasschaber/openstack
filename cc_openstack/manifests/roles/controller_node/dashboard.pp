@@ -23,7 +23,7 @@ class cc_openstack::roles::controller_node::dashboard {
 
 	
 	exec { 'apt-get-update':
-		command => 'apt-get update',
+		command => 'rm /var/lib/apt/lists/lock; apt-get update',
 		path => ['/usr/bin/', '/bin/', '/sbin/', '/usr/sbin'],
 	}
 	
